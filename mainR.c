@@ -92,6 +92,7 @@ void trir(){
 int offs = 0;
 	initscr();
 	clear();
+	curs_set(0);
 	printf("f");
 	tri tb[12] = {0}; //declares  an array for all triangles in cube
 	mkcube(tb,1); //makes triangulated cube and puts triangles to tbi

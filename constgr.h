@@ -1,32 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <time.h>
-#include <sys/ioctl.h>
-#include <stdbool.h>
-#include <math.h>
-#include <curses.h>
-
 
 // left handed system
 
-
-/*	
-	STRUCTURES FOR GRAPHICS
-*/	
-
-//new data type for a 2d point cords
-typedef struct points{double x;double y;double z;double w;}point;
-double dot(point p1,point p2);point subp(point p1,point p2);point divp(point p1,point p2);point mulpn(point p,double d);point normp(point p);double magp(point p);bool chckp(point p1,point p2);point crossp(point U, point V);//declarations of point functions
-//data type of a line
-typedef struct lines{point p1;point p2;}line;
-//data type of a triangle
-typedef struct triangle{point p1;point p2;point p3;}tri;
-tri amktri(double tarr[8]);point trinorm(tri t);
-//data for mesh contains all points and tris with pointers to poiters to tris and pointers to pointers to poitnts define with mesh.pa = calloc(size,sizeof(point*)) same for tris
-typedef struct meshes{tri** ta; point** pa;}mesh;
-
-typedef struct mat4{double m[4][4];}mat4;
 
 
 
@@ -35,8 +9,7 @@ typedef struct mat4{double m[4][4];}mat4;
 */	
 
 mat4 idm(){
-	mat4 pm;pm.m[0][1] = 0;pm.m[0][2] = 0;pm.m[0][3] = 0;pm.m[1][0] = 0;pm.m[1][2] = 0;pm.m[1][3] = 0;pm.m[2][0] = 0;pm.m[2][1] = 0;pm.m[2][3] = 0;
-	
+	mat4 pm;pm.m[0][1] = 0;pm.m[0][2] = 0;pm.m[0][3] = 0;pm.m[1][0] = 0;pm.m[1][2] = 0;pm.m[1][3] = 0;pm.m[2][0] = 0;pm.m[2][1] = 0;pm.m[2][3] = 0;	
 	pm.m[0][0] = 1;
 	pm.m[1][1] = 1;
 	pm.m[2][2] = 1;
@@ -53,9 +26,9 @@ mat4 spos(point pos){
 	pm.m[1][1] = 1;
 	pm.m[2][2] = 1;
 	pm.m[3][3] = 1;
-	pm.m[3][0] = pos.x;
-	pm.m[3][1] = pos.y;
-	pm.m[3][2] = pos.z;
+	pm.m[3][0] = -pos.x;
+	pm.m[3][1] = -pos.y;
+	pm.m[3][2] = -pos.z;
 
 return pm;}mat4 inspos(point pos){
 	mat4 pm;pm.m[0][1] = 0;pm.m[0][2] = 0;pm.m[0][3] = 0;pm.m[1][0] = 0;pm.m[1][2] = 0;pm.m[1][3] = 0;pm.m[2][0] = 0;pm.m[2][1] = 0;pm.m[2][3] = 0;
@@ -91,8 +64,8 @@ return pm;}mat4 crmy(double theta){
 	
 	pm.m[1][1] = 1;
 	pm.m[0][0] = cos(theta);
-	pm.m[2][0] = sin(theta);
-	pm.m[0][2] = -sin(theta);
+	pm.m[0][2] = sin(theta);
+	pm.m[2][0] = -sin(theta);
 	pm.m[2][2] = cos(theta);
 	pm.m[3][3] = 1;
 
@@ -111,7 +84,6 @@ return pm;}mat4 camtr(point eye,point cen,point up){//tri p1 = eye , p2 = center
 
 	point zc = normp(subp(cen,eye));
 	point xc = normp(subp(up,mulpn(zc,dot(up,zc))));
-	point oxc = normp(crossp(up,zc));
 	point yc = crossp(xc,zc);
 
 	pm.m[0][0] = yc.x;
@@ -159,7 +131,7 @@ return pm;}mat4 ppm(point screen){
 	mat4 pm;pm.m[0][1] = 0;pm.m[0][2] = 0;pm.m[0][3] = 0;pm.m[1][0] = 0;pm.m[1][2] = 0;pm.m[1][3] = 0;pm.m[2][0] = 0;pm.m[2][1] = 0;pm.m[3][0] = 0;pm.m[3][1] = 0;
 	double near = 0.1;
 	double far = 1000;
-	double fov = 30;
+	double fov = 90;
 	double asprt = screen.y/screen.x;
 	double fovr = 1 / tan(fov * 0.5 / 180 * 3.14159);
 

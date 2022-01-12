@@ -7,7 +7,7 @@
 */
 point zero = {0,0,0,1};
 point def_target = {0,0,1,1};
-point camSpace_up = {0,1,0,1};
+point camSpace_up = {0,1,0,0};
 
 bool inToggle = false;
 camera lcam;
@@ -79,10 +79,12 @@ return t1;}
 
 //some shitty projection i found on internet don't know how it works and dont wanna
 point fastproj(point p,point screen){
-	point prp = multm(p,pmm(screen)); //final point projection
-	point pvp = multm(prp,pvm(prp.z));
-	point fop = multm(pvp,voff(mkp(screen.x/2,screen.y/2,0)));
-return fop;}
+	point cor = multm(p,qinvm(camtr(lcam.atV,lcam.toV,lcam.upV))); 
+	point prp = multm(cor,ppm(screen)); //final point projectio
+//	point pvp = multm(prp,pvm(prp.z));
+	point enp = normdcp(prp,screen);
+//	point fop = multm(pvp,voff(mkp(screen.x/2,screen.y/2,0)));
+return enp;}
 tri fastrent(tri t,point screen){
 	tri t1 = mktri(fastproj(t.p1,screen),fastproj(t.p2,screen),fastproj(t.p3,screen));
 return t1;}
@@ -150,7 +152,7 @@ void drawtdown(tri t,double lg){
 		curx2 -= invslope2;}}
 void scanln(tri t,double lg,point screen){
 	//tri tr = projt(rent(t,xr),screen);
-	auto tri tr = ziprent(t,screen);
+	auto tri tr = fastrent(t,screen);
 	if(tr.p2.y < tr.p1.y){ swapp(&tr.p2, &tr.p1); }if(tr.p3.y <tr.p1.y){ swapp(&tr.p3, &tr.p1); }if(tr.p3.y < tr.p2.y){ swapp(&tr.p3, &tr.p2); }
 	
 	if(tr.p3.y == tr.p2.y){drawtup(tr,lg);}

@@ -26,9 +26,9 @@ mat4 spos(point pos){
 	pm.m[1][1] = 1;
 	pm.m[2][2] = 1;
 	pm.m[3][3] = 1;
-	pm.m[3][0] = -pos.x;
-	pm.m[3][1] = -pos.y;
-	pm.m[3][2] = -pos.z;
+	pm.m[3][0] = pos.x;
+	pm.m[3][1] = pos.y;
+	pm.m[3][2] = pos.z;
 
 return pm;}mat4 inspos(point pos){
 	mat4 pm;pm.m[0][1] = 0;pm.m[0][2] = 0;pm.m[0][3] = 0;pm.m[1][0] = 0;pm.m[1][2] = 0;pm.m[1][3] = 0;pm.m[2][0] = 0;pm.m[2][1] = 0;pm.m[2][3] = 0;
@@ -85,6 +85,11 @@ return pm;}mat4 camtr(point eye,point cen,point up){//tri p1 = eye , p2 = center
 	point zc = normp(subp(cen,eye));
 	point xc = normp(subp(up,mulpn(zc,dot(up,zc))));
 	point yc = crossp(xc,zc);
+	
+//	point zc = normp(subp(cen,eye));
+//	point xc = normp(crossp(up, zc));
+//	point yc = normp(subp(up,mulpn(zc,dot(up,zc))));
+//	point yc = crossp(xc, zc);
 
 	pm.m[0][0] = yc.x;
 	pm.m[1][0] = xc.x;
@@ -108,9 +113,9 @@ return pm;}mat4 camtr(point eye,point cen,point up){//tri p1 = eye , p2 = center
 	pm.m[2][0] = xc.z;
 	pm.m[2][1] = yc.z;
 	pm.m[2][2] = zc.z;
-	pm.m[3][0] = -xc.x*eye.x - xc.y*eye.y - xc.z*eye.z;
-	pm.m[3][1] = -yc.x*eye.x - yc.y*eye.y - xc.z*eye.z;
-	pm.m[3][2] = -zc.x*eye.x - zc.y*eye.y - zc.z*eye.z;
+	pm.m[3][0] = -dot(xc,eye);
+	pm.m[3][1] = -dot(yc,eye);
+	pm.m[3][2] = -dot(zc,eye);
 	pm.m[3][3] = 1;*/
 return pm;}mat4 pmm(point screen){
 	mat4 pm;pm.m[0][1] = 0;pm.m[0][2] = 0;pm.m[0][3] = 0;pm.m[1][2] = 0;pm.m[1][3] = 0;pm.m[2][0] = 0;pm.m[2][1] = 0;pm.m[2][3] = 0;pm.m[3][0] = 0;pm.m[3][1] = 0;pm.m[3][2] = 0;
@@ -145,15 +150,15 @@ return pm;}mat4 symppm(point screen){
 	mat4 pm;pm.m[0][1] = 0;pm.m[0][2] = 0;pm.m[0][3] = 0;pm.m[1][0] = 0;pm.m[1][2] = 0;pm.m[1][3] = 0;pm.m[2][0] = 0;pm.m[2][1] = 0;pm.m[3][0] = 0;pm.m[3][1] = 0;
 	double near = 0.1;
 	double far = 100;
-	double fov = 45;
+	double fov = 0.77;
 	double asprt = screen.x/screen.y;
 	double fovr = 1/(tan(fov/2));
 
 	pm.m[0][0] = fovr/asprt;
 	pm.m[1][1] = fovr;
-	pm.m[2][2] = -(far+near) / (far - near);
+	pm.m[2][2] = (-near-far) / (far - near);
 	pm.m[2][3] = -1;
-	pm.m[3][2] = -(2*far * near) / (far - near);
+	pm.m[3][2] = -(2 * far * near) / (far - near);
 	pm.m[3][3] = 0;
 return pm;}
 mat4 asymppm(point screen){
@@ -166,9 +171,9 @@ mat4 asymppm(point screen){
 
 	pm.m[0][0] = fovr/asprt;
 	pm.m[1][1] = fovr;
-	pm.m[2][2] = -(far+near) / (far - near);
-	pm.m[2][3] = -1;
-	pm.m[3][2] = -(2*far * near) / (far - near);
+	pm.m[2][2] = (-near-far) / (far - near);
+	pm.m[2][3] = 1;
+	pm.m[3][2] = (2 * far * near) / (far - near);
 	pm.m[3][3] = 0;
 return pm;}
 mat4 pvm(double z){

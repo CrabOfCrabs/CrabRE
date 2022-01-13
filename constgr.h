@@ -150,7 +150,7 @@ return pm;}mat4 symppm(point screen){
 	mat4 pm;pm.m[0][1] = 0;pm.m[0][2] = 0;pm.m[0][3] = 0;pm.m[1][0] = 0;pm.m[1][2] = 0;pm.m[1][3] = 0;pm.m[2][0] = 0;pm.m[2][1] = 0;pm.m[3][0] = 0;pm.m[3][1] = 0;
 	double near = 0.1;
 	double far = 100;
-	double fov = 0.01415;
+	double fov = 0.77;
 	double asprt = screen.x/screen.y;
 	double fovr = 1/(tan(fov/2));
 
@@ -231,9 +231,4 @@ void mkcube(tri *obj,double size){
 	obj[11] = amktri(t12);}
 
 
-void mkpir(tri *obj,double size){                                                                                                                                                                                                                   double t1[9]={ 0,0,1,0,0,0,1,0,0 };                                                                                   double t2[9]={ 0,0,1,1,0,0,1,0,1};
-        double t3[9]={ 0,0,0,0,0,1,0.5,2,0.5 };                                                                               double t4[9]={ 0,0,0,0.5,2,0.5,1,0,0};
-        double t5[9]={ 0,0,1,1,0,1,0.5,2,0.5 };                                                                               double t6[9]={ 0.5,2,0.5,1,0,1,1,0,0 };
-                                                                                                                              obj[0] = amktri(t1);                                                                                                  obj[1] = amktri(t2);                                                                                                  obj[2] = amktri(t3);
-        obj[3] = amktri(t4);                                                                                                  obj[4] = amktri(t5);
-        obj[5] = amktri(t6);}
+

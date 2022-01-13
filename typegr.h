@@ -161,7 +161,7 @@ tri psort(tri t){
 	if(tr.p3.y < tr.p2.y){ swapp(&tr.p3, &tr.p2); }
 	if(tr.p1.y == tr.p2.y && tr.p1.x<tr.p2.x){ swapp(&tr.p1, &tr.p2); }
 	if(tr.p3.y == tr.p2.y && tr.p3.x<tr.p2.x){ swapp(&tr.p3, &tr.p2); }
-return tr;}
+}
 /*	
 	MESH OPERATION FUNCTIONS
 */

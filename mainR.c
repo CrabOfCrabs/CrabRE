@@ -71,12 +71,12 @@ int offs = 0;
                 if(c == 'd'){campo.x = campo.x - 0.05;}
 		if(c == 'o'){campo.y = campo.y + 0.05;}
                 if(c == 'l'){campo.y = campo.y - 0.05;}
-		if(c == 'z'){yr = yr + 0.5;}
-                if(c == 'x'){yr = yr - 0.5;}
+		if(c == 'z'){yr = yr + 0.05;}
+                if(c == 'x'){yr = yr - 0.05;}
 
 		if(c == 'e'){system("clear");system("/bin/stty sane");exit(1);}
 		point vt = mkp( 0,0,1 );
-		vld = multm(vt,crmz(yr));
+		vld = multm(vt,crmy(yr));
 		vt = addp(campo, vld);
                 
 		mat4 camm = qinvm(camtr(campo,vt,up)); 

@@ -58,11 +58,10 @@ point negp(point p){point np = mkp(-p.x,-p.y,-p.z);return np;}
 
 point normp(point p){
 	double mg = magp(p);
-	point pn = mkp(p.z/mg,p.y/mg,p.z/mg);
+	point pn = mkp(p.x/mg,p.y/mg,p.z/mg);
 	return pn;}//normailize a vector
 point tricenp(tri t){
-	point p1 = t.p1,p2 = t.p2,p3 = t.p3;
-	point p = mkp((p1.x+p2.x+p3.x)/3,(p1.y+p2.y+p3.y)/3,(p1.z+p2.z+p3.z)/3);
+	point p = mkp((t.p1.x+t.p2.x+t.p3.x)/3,(t.p1.y+t.p2.y+t.p3.y)/3,(t.p1.z+t.p2.z+t.p3.z)/3);
 	return p;}
 point crossp(point U ,point V){point c = mkp((U.y*V.z)-(U.z*V.y), (U.z*V.x)-(U.x*V.z), (U.x*V.y)-(U.y*V.x));return c;}
 

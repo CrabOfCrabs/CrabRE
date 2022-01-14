@@ -8,7 +8,7 @@
 #include <curses.h>
 #include "crlib.h"
 
-
+/*
 void trir(){
 int offs = 0;
 	initscr();
@@ -43,6 +43,7 @@ int offs = 0;
 	exit(0);
 
 }
+*/
 
 void trirf(){
 int offs = 0;
@@ -50,12 +51,13 @@ int offs = 0;
         clear();
         curs_set(0);
         printf("f");
-        tri tb[6] = {0}; //declares  an array for all triangles in cube
+        tri tb[12] = {0}; //declares  an array for all triangles in cube
          //makes triangulated cube and puts triangles to tbi
-        mkpir(tb,1);
+        mkcube(tb,1);
+	point up = mkp(0,1,0);
         point sun = mkp(-1,3,-1);
-        point campo = mkp(0,0,-10);
-	point vld = mkp(0,0,1);	
+        point campo = mkp(0,0,10);
+	point vld = mkp(0,0,10);	
 	double yr = 0;
         char c;
 	struct winsize sz;
@@ -74,17 +76,34 @@ int offs = 0;
 
 		if(c == 'e'){system("clear");system("/bin/stty sane");exit(1);}
 		point vt = mkp( 0,0,1 );
-		vld = multm(vt,crmx(yr));
+		vld = multm(vt,crmy(yr));
 		vt = addp(campo, vld);
-                atto_cam(campo,vt);
+                
+		mat4 camm = qinvm(camtr(campo,vt,up)); 
 	//	point campos = getcamp(campo);
-                for(int tr=0;tr<=5;tr++){ //for all triangols
+                for(int tr=0;tr<=11;tr++){ //for all triangols
+			tri fint;
                         ioctl( 0, TIOCGWINSZ, &sz );
-                   //   tri att = ziprentc(tb[tr],mkp(sz.ws_col,sz.ws_row,0));
-                      //  if(dot(trinorm(tb[tr]),subp(tb[tr].p1,campos)) >0 ){
-                        double shade = calcshade(tb[tr],campo);
-                        scanln(tb[tr],1,mkp(sz.ws_col,sz.ws_row,0));
-                      //  }
+			point screen = mkp(sz.ws_col,sz.ws_row,0);
+			if(dot(trinorm(tb[tr]),subp(tb[tr].p1,campo)) >0 ){
+
+
+				fint.p1 = multm(tb[tr].p1,camm);
+				fint.p2 = multm(tb[tr].p2,camm);
+				fint.p3 = multm(tb[tr].p3,camm);
+
+				fint.p1 = multm(fint.p1,ppm(screen));
+				fint.p2 = multm(fint.p2,ppm(screen));
+				fint.p3 = multm(fint.p3,ppm(screen));
+
+
+				fint.p1 = normdcp(fint.p1,screen);
+				fint.p2 = normdcp(fint.p2,screen);
+				fint.p3 = normdcp(fint.p3,screen);
+
+				double shade = calcshade(tb[tr],campo);
+				scanln(fint,1);
+                        }
                 }
                 nanosleep((const struct timespec[]){{0, 5000000L}}, NULL); //wait some time between frames
                 refresh();

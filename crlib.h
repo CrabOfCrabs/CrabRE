@@ -150,9 +150,9 @@ void drawtdown(tri t,double lg){
 		drawline2d(mkp(curx1,Y,lg),mkp(curx2,Y,0));
 		curx1 -= invslope1;
 		curx2 -= invslope2;}}
-void scanln(tri t,double lg,point screen){
+void scanln(tri tr,double lg){
 	//tri tr = projt(rent(t,xr),screen);
-	auto tri tr = fastrent(t,screen);
+
 	if(tr.p2.y < tr.p1.y){ swapp(&tr.p2, &tr.p1); }if(tr.p3.y <tr.p1.y){ swapp(&tr.p3, &tr.p1); }if(tr.p3.y < tr.p2.y){ swapp(&tr.p3, &tr.p2); }
 	
 	if(tr.p3.y == tr.p2.y){drawtup(tr,lg);}

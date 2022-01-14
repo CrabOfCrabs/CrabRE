@@ -83,22 +83,22 @@ return pm;}mat4 camtr(point eye,point cen,point up){//tri p1 = eye , p2 = center
 	mat4 pm;pm.m[0][3] = 0;pm.m[1][3] = 0;pm.m[2][3] = 0;	
 
 	point zc = normp(subp(cen,eye));
-	point xc = normp(subp(up,mulpn(zc,dot(up,zc))));
-	point yc = crossp(xc,zc);
+	point yc = normp(subp(up,mulpn(zc,dot(up,zc))));
+	point xc = crossp(yc,zc);
 	
 //	point zc = normp(subp(cen,eye));
 //	point xc = normp(crossp(up, zc));
 //	point yc = normp(subp(up,mulpn(zc,dot(up,zc))));
 //	point yc = crossp(xc, zc);
 
-	pm.m[0][0] = yc.x;
-	pm.m[1][0] = xc.x;
+	pm.m[0][0] = xc.x;
+	pm.m[1][0] = yc.x;
 	pm.m[2][0] = zc.x;
-	pm.m[0][1] = yc.y;
-	pm.m[1][1] = xc.y;
+	pm.m[0][1] = xc.y;
+	pm.m[1][1] = yc.y;
 	pm.m[2][1] = zc.y;
-	pm.m[0][2] = yc.z;
-	pm.m[1][2] = xc.z;
+	pm.m[0][2] = xc.z;
+	pm.m[1][2] = yc.z;
 	pm.m[2][2] = zc.z;
 	pm.m[3][0] = eye.x;
 	pm.m[3][1] = eye.y;

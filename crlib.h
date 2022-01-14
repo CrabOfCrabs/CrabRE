@@ -7,7 +7,7 @@
 */
 point zero = {0,0,0,1};
 point def_target = {0,0,1,1};
-point camSpace_up = {0,1,0,0};
+point camSpace_up = {0,1,0,1};
 
 bool inToggle = false;
 camera lcam;
@@ -103,23 +103,23 @@ void chshaded(point p){
 	double y=p.y, x=p.x, lg=p.z; //z is shade val
 		
 	if(lg>1){
-	mvprintw(y/2+offs,x+offs,"@");}
+	mvprintw(y+offs,x+offs,"@");}
 	else if(lg<=1 && lg>0.9){
-	mvprintw(y/2+offs,x+offs,"$");}
+	mvprintw(y+offs,x+offs,"$");}
 	else if(lg<=0.9 && lg>0.8){
-	mvprintw(y/2+offs,x+offs,"#");}
+	mvprintw(y+offs,x+offs,"#");}
 	else if(lg<=0.8 && lg>0.7){
-	mvprintw(y/2+offs,x+offs,"c");}
+	mvprintw(y+offs,x+offs,"c");}
 	else if(lg<=0.7 && lg>0.6){
-	mvprintw(y/2+offs,x+offs,"+");}
+	mvprintw(y+offs,x+offs,"+");}
 	else if(lg<=0.6 && lg>0.5){
-	mvprintw(y/2+offs,x+offs,"=");}
+	mvprintw(y+offs,x+offs,"=");}
 	else if(lg<=0.5 && lg>0.4){
-	mvprintw(y/2+offs,x+offs,"-");}
+	mvprintw(y+offs,x+offs,"-");}
 	else if(lg<=0.4 && lg>0.3){
-	mvprintw(y/2+offs,x+offs,":");}
+	mvprintw(y+offs,x+offs,":");}
 	else if(lg<=0.3 && lg>=0){
-	mvprintw(y/2+offs,x+offs,".");}}
+	mvprintw(y+offs,x+offs,".");}}
 void drawline2d(point p1,point p2){
 	double dx, dy, p, x, y;int offs = 20;double x1 = p1.x;double x2 = p2.x;dy=0;double x2l;
 	if(x1<=x2){x=x1;dx=x2-x1;x2l = x2;}else{x=x2;dx=x1-x2;x2l = x1;}y=p1.y;p=2*dy-dx;

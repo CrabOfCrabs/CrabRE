@@ -85,7 +85,7 @@ int offs = 0;
 			tri fint;
                         ioctl( 0, TIOCGWINSZ, &sz );
 			point screen = mkp(sz.ws_col,sz.ws_row*2,0);
-			if(dot(trinorm(tb[tr]),subp(tb[tr].p1,campo)) >0 ){
+			if(dot(trinorm(tb[tr]),subp(tb[tr].p1,campo)) <0 ){
 
 
 				fint.p1 = multm(tb[tr].p1,camm);
@@ -102,7 +102,7 @@ int offs = 0;
 				fint.p3 = normdcp(fint.p3,screen);
 
 				double shade = calcshade(tb[tr],campo);
-				scanln(fint,1);
+				scanln(fint,shade);
                         }
                 }
                 nanosleep((const struct timespec[]){{0, 5000000L}}, NULL); //wait some time between frames

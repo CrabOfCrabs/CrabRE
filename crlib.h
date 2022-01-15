@@ -103,19 +103,19 @@ void chshaded(point p){
 	double y=p.y, x=p.x, lg=p.z; //z is shade val
 		
 	if(lg>1){
-	mvprintw(y/2+offs,x+offs,"@");}
+	mvprintw(y/2+offs,x+offs,"M");}
 	else if(lg<=1 && lg>0.9){
-	mvprintw(y/2+offs,x+offs,"$");}
-	else if(lg<=0.9 && lg>0.8){
 	mvprintw(y/2+offs,x+offs,"#");}
+	else if(lg<=0.9 && lg>0.8){
+	mvprintw(y/2+offs,x+offs,"@");}
 	else if(lg<=0.8 && lg>0.7){
-	mvprintw(y/2+offs,x+offs,"c");}
+	mvprintw(y/2+offs,x+offs,"8");}
 	else if(lg<=0.7 && lg>0.6){
-	mvprintw(y/2+offs,x+offs,"+");}
+	mvprintw(y/2+offs,x+offs,"&");}
 	else if(lg<=0.6 && lg>0.5){
-	mvprintw(y/2+offs,x+offs,"=");}
+	mvprintw(y/2+offs,x+offs,"o");}
 	else if(lg<=0.5 && lg>0.4){
-	mvprintw(y/2+offs,x+offs,"-");}
+	mvprintw(y/2+offs,x+offs,"*");}
 	else if(lg<=0.4 && lg>0.3){
 	mvprintw(y/2+offs,x+offs,":");}
 	else if(lg<=0.3 && lg>=0){

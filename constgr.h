@@ -9,14 +9,12 @@
 */	
 
 mat4 idm(){
-	mat4 pm;pm.m[0][1] = 0;pm.m[0][2] = 0;pm.m[0][3] = 0;pm.m[1][0] = 0;pm.m[1][2] = 0;pm.m[1][3] = 0;pm.m[2][0] = 0;pm.m[2][1] = 0;pm.m[2][3] = 0;	
+	mat4 pm;pm.m[0][1] = 0;pm.m[0][2] = 0;pm.m[0][3] = 0;pm.m[1][0] = 0;pm.m[1][2] = 0;pm.m[1][3] = 0;pm.m[2][0] = 0;pm.m[2][1] = 0;pm.m[2][3] = 0;pm.m[3][0] = 0;pm.m[3][1] = 0;pm.m[3][2] = 0;
+
 	pm.m[0][0] = 1;
 	pm.m[1][1] = 1;
 	pm.m[2][2] = 1;
 	pm.m[3][3] = 1;
-	pm.m[3][0] = 0;
-	pm.m[3][1] = 0;
-	pm.m[3][2] = 0;
 
 return pm;}
 mat4 spos(point pos){
@@ -37,9 +35,9 @@ return pm;}mat4 inspos(point pos){
 	pm.m[1][1] = 1;
 	pm.m[2][2] = 1;
 	pm.m[3][3] = 1;
-	pm.m[3][0] = pos.x;
-	pm.m[3][1] = pos.y;
-	pm.m[3][2] = pos.z;
+	pm.m[3][0] = -pos.x;
+	pm.m[3][1] = -pos.y;
+	pm.m[3][2] = -pos.z;
 
 return pm;}mat4 pscale(point scale){
 	mat4 pm;pm.m[0][1] = 0;pm.m[0][2] = 0;pm.m[0][3] = 0;pm.m[1][0] = 0;pm.m[1][2] = 0;pm.m[1][3] = 0;pm.m[2][0] = 0;pm.m[2][1] = 0;pm.m[2][3] = 0;pm.m[3][0] = 0;pm.m[3][1] = 0;pm.m[3][2] = 0;
@@ -85,11 +83,6 @@ return pm;}mat4 camtr(point eye,point cen,point up){//tri p1 = eye , p2 = center
 	point zc = normp(subp(cen,eye));
 	point yc = normp(subp(up,mulpn(zc,dot(up,zc))));
 	point xc = crossp(yc,zc);
-	
-//	point zc = normp(subp(cen,eye));
-//	point xc = normp(crossp(up, zc));
-//	point yc = normp(subp(up,mulpn(zc,dot(up,zc))));
-//	point yc = crossp(xc, zc);
 
 	pm.m[0][0] = xc.x;
 	pm.m[1][0] = yc.x;
@@ -103,33 +96,6 @@ return pm;}mat4 camtr(point eye,point cen,point up){//tri p1 = eye , p2 = center
 	pm.m[3][0] = eye.x;
 	pm.m[3][1] = eye.y;
 	pm.m[3][2] = eye.z;
-	pm.m[3][3] = 1;/*
-	pm.m[0][0] = xc.x;
-	pm.m[0][1] = yc.x;
-	pm.m[0][2] = zc.x;
-	pm.m[1][0] = xc.y;
-	pm.m[1][1] = yc.y;
-	pm.m[1][2] = zc.y;
-	pm.m[2][0] = xc.z;
-	pm.m[2][1] = yc.z;
-	pm.m[2][2] = zc.z;
-	pm.m[3][0] = -dot(xc,eye);
-	pm.m[3][1] = -dot(yc,eye);
-	pm.m[3][2] = -dot(zc,eye);
-	pm.m[3][3] = 1;*/
-return pm;}mat4 pmm(point screen){
-	mat4 pm;pm.m[0][1] = 0;pm.m[0][2] = 0;pm.m[0][3] = 0;pm.m[1][2] = 0;pm.m[1][3] = 0;pm.m[2][0] = 0;pm.m[2][1] = 0;pm.m[2][3] = 0;pm.m[3][0] = 0;pm.m[3][1] = 0;pm.m[3][2] = 0;
-	double f    = 0.1;
-	double px   = screen.x/10000;
-	double py   = screen.y/10000;
-	double offx = screen.x;
-	double offy = screen.y;
-	double skew = 0;
-
-	pm.m[0][0] = (f*screen.x)/(2*px);
-	pm.m[1][0] = skew;
-	pm.m[1][1] = (f*screen.y)/(2*py);
-	pm.m[2][2] = -1;
 	pm.m[3][3] = 1;
 
 return pm;}mat4 ppm(point screen){
@@ -146,53 +112,7 @@ return pm;}mat4 ppm(point screen){
 	pm.m[2][3] = 1;
 	pm.m[3][2] = (-far * near) / (far - near);
 	pm.m[3][3] = 0;
-return pm;}mat4 symppm(point screen){
-	mat4 pm;pm.m[0][1] = 0;pm.m[0][2] = 0;pm.m[0][3] = 0;pm.m[1][0] = 0;pm.m[1][2] = 0;pm.m[1][3] = 0;pm.m[2][0] = 0;pm.m[2][1] = 0;pm.m[3][0] = 0;pm.m[3][1] = 0;
-	double near = 0.1;
-	double far = 100;
-	double fov = 0.01415;
-	double asprt = screen.x/screen.y;
-	double fovr = 1/(tan(fov/2));
-
-	pm.m[0][0] = fovr/asprt;
-	pm.m[1][1] = fovr;
-	pm.m[2][2] = (-near-far) / (far - near);
-	pm.m[2][3] = -1;
-	pm.m[3][2] = -(2 * far * near) / (far - near);
-	pm.m[3][3] = 0;
 return pm;}
-mat4 asymppm(point screen){
-	mat4 pm;pm.m[0][1] = 0;pm.m[0][2] = 0;pm.m[0][3] = 0;pm.m[1][0] = 0;pm.m[1][2] = 0;pm.m[1][3] = 0;pm.m[2][0] = 0;pm.m[2][1] = 0;pm.m[3][0] = 0;pm.m[3][1] = 0;
-	double near = 0.1;
-	double far = 1000;
-	double fov = 45;
-	double asprt = screen.x/screen.y;
-	double fovr = 1/(tan(fov/2));
-
-	pm.m[0][0] = fovr/asprt;
-	pm.m[1][1] = fovr;
-	pm.m[2][2] = (-near-far) / (far - near);
-	pm.m[2][3] = 1;
-	pm.m[3][2] = (2 * far * near) / (far - near);
-	pm.m[3][3] = 0;
-return pm;}
-mat4 pvm(double z){
-	mat4 pm;pm.m[0][1] = 0;pm.m[0][2] = 0;pm.m[0][3] = 0;pm.m[1][0] = 0;pm.m[1][2] = 0;pm.m[1][3] = 0;pm.m[2][0] = 0;pm.m[2][1] = 0;pm.m[2][3] = 0;pm.m[3][0] = 0;pm.m[3][1] = 0;pm.m[3][2] = 0;
-	pm.m[0][0]=1/z;
-	pm.m[1][1]=1/z;
-	pm.m[2][2]=1;
-	pm.m[3][3]=1;
-return pm;}
-mat4 voff(point off){
-	mat4 pm;pm.m[0][1] = 0;pm.m[0][2] = 0;pm.m[0][3] = 0;pm.m[1][0] = 0;pm.m[1][2] = 0;pm.m[1][3] = 0;pm.m[2][0] = 0;pm.m[2][1] = 0;pm.m[2][3] = 0;pm.m[3][2] = 0;
-	pm.m[0][0] = 1;
-	pm.m[1][1] = -1;
-	pm.m[2][2] = 1;
-	pm.m[3][3] = 1;
-	pm.m[3][0] = off.x;
-	pm.m[3][1] = off.y;
-return pm;}
-
 
 
 /*	
@@ -230,10 +150,18 @@ void mkcube(tri *obj,double size){
 	obj[10] = amktri(t11);
 	obj[11] = amktri(t12);}
 
+void mkpir(tri *obj,double size){
 
-void mkpir(tri *obj,double size){                                                                                                                                                                                                                   double t1[9]={ 0,0,1,0,0,0,1,0,0 };                                                                                   double t2[9]={ 0,0,1,1,0,0,1,0,1};
-        double t3[9]={ 0,0,0,0,0,1,0.5,2,0.5 };                                                                               double t4[9]={ 0,0,0,0.5,2,0.5,1,0,0};
-        double t5[9]={ 0,0,1,1,0,1,0.5,2,0.5 };                                                                               double t6[9]={ 0.5,2,0.5,1,0,1,1,0,0 };
-                                                                                                                              obj[0] = amktri(t1);                                                                                                  obj[1] = amktri(t2);                                                                                                  obj[2] = amktri(t3);
-        obj[3] = amktri(t4);                                                                                                  obj[4] = amktri(t5);
-        obj[5] = amktri(t6);}
+	double t1[9]={ 0,0,1,0,0,0,1,0,0 };
+	double t2[9]={ 0,0,1,1,0,0,1,0,1};
+	double t3[9]={ 0,0,0,0,0,1,0.5,2,0.5 };
+	double t4[9]={ 0,0,0,0.5,2,0.5,1,0,0};
+	double t5[9]={ 0,0,1,1,0,1,0.5,2,0.5 };
+	double t6[9]={ 0.5,2,0.5,1,0,1,1,0,0 };
+
+	obj[0] = amktri(t1);
+	obj[1] = amktri(t2);
+	obj[2] = amktri(t3);
+	obj[3] = amktri(t4);
+	obj[4] = amktri(t5);
+	obj[5] = amktri(t6);}

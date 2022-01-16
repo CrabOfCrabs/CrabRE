@@ -44,54 +44,18 @@ tri trant(tri t,point rc,point pc,point co,point os){
 	tri t1 = mktri(tranp(t.p1,rc,pc,co,os),tranp(t.p2,rc,pc,co,os),tranp(t.p3,rc,pc,co,os));
 return t1;}
 
-//rotate camur
-point ctranp(point p,point xyzr,point objoff){
-	mat4 idtran = idm();
-	idtran = multms(crmz(xyzr.z),crmx(xyzr.x));
-	idtran = multms(idtran,spos(objoff));
-	point pfinal = multm(p,idtran);
-return pfinal;}
-tri ctrant(tri t,point rc,point co){
-	tri t1 = mktri(ctranp(t.p1,rc,co),ctranp(t.p2,rc,co),ctranp(t.p3,rc,co));
-return t1;}
-
-point allinoneprojc(point p,point screen){
-	point cor = multm(p,qinvm(camtr(lcam.atV,lcam.toV,lcam.upV))); 
-return cor;}
-tri ziprentc(tri t,point screen){
-	tri t1 = mktri( allinoneprojc(t.p1,screen),
-			allinoneprojc(t.p2,screen),
-			allinoneprojc(t.p3,screen));
-return t1;}
 
 //this shit does all the things for you but sometimes its doing some weird shit
-point allinoneproj(point p,point screen){
+point fastproj(point p,point screen){
 	point cor = multm(p,qinvm(camtr(lcam.atV,lcam.toV,lcam.upV))); 
 	point coff = multm(cor,ppm(screen));	
 	point enp = normdcp(coff,screen);
 return enp;}
 tri ziprent(tri t,point screen){
-	tri t1 = mktri( allinoneproj(t.p1,screen),
-			allinoneproj(t.p2,screen),
-			allinoneproj(t.p3,screen));
+	tri t1 = mktri( fastproj(t.p1,screen),
+			fastproj(t.p2,screen),
+			fastproj(t.p3,screen));
 return t1;}
-
-
-//some shitty projection i found on internet don't know how it works and dont wanna
-point fastproj(point p,point screen){
-	point cor = multm(p,qinvm(camtr(lcam.atV,lcam.toV,lcam.upV))); 
-	point prp = multm(cor,ppm(screen)); //final point projectio
-//	point pvp = multm(prp,pvm(prp.z));
-	point enp = normdcp(prp,screen);
-//	point fop = multm(pvp,voff(mkp(screen.x/2,screen.y/2,0)));
-return enp;}
-tri fastrent(tri t,point screen){
-	tri t1 = mktri(fastproj(t.p1,screen),fastproj(t.p2,screen),fastproj(t.p3,screen));
-return t1;}
-
-
-point getcamp(point p){point camp = multm(p,camtr(lcam.atV,lcam.toV,lcam.upV));return camp;}
-
 
 /*	
 	DRAWING FUNCTIONS //will be moved to a seperate graphis handling library or 2d objects

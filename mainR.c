@@ -59,26 +59,29 @@ int offs = 0;
         point campo = mkp(0,0,10);
 	point vld = mkp(0,0,10);	
 	double yr = 0;
+	double xr = 0;
+	double zr = 0;
         char c;
 	struct winsize sz;
         while(1){ //rotate in radianosi
 		system("/bin/stty raw");
 
 		c=getchar();
-		if(c == 'w'){campo = addp(campo,divpn(vld,50));}
-		if(c == 's'){campo = subp(campo,divpn(vld,50));}
-		if(c == 'a'){campo.x = campo.x + 0.05;}
-                if(c == 'd'){campo.x = campo.x - 0.05;}
-		if(c == 'o'){campo.y = campo.y + 0.05;}
-                if(c == 'l'){campo.y = campo.y - 0.05;}
-		if(c == 'z'){yr = yr + 0.05;}
-                if(c == 'x'){yr = yr - 0.05;}
-
+		if(c == 'w'){campo = subp(campo,divpn(vld,50));}
+		if(c == 's'){campo = addp(campo,divpn(vld,50));}
+		if(c == 'd'){campo = subp(campo,divpn(normp(crossp(vld,up)),50));}
+                if(c == 'a'){campo = addp(campo,divpn(normp(crossp(vld,up)),50));}
+		if(c == 'r'){campo.y = campo.y - 0.05;}
+                if(c == 'f'){campo.y = campo.y + 0.05;}
+		if(c == 'l'){yr +=0.05;}
+                if(c == 'j'){yr -=0.05;}
+		if(c == 'k'){xr +=0.05;}
+                if(c == 'i'){xr -=0.05;}
+	
 		if(c == 'e'){system("clear");system("/bin/stty sane");exit(1);}
 		point vt = mkp( 0,0,1 );
-		vld = multm(vt,crmy(yr));
+		vld = multm(multm(vt,crmx(xr)),crmy(yr));
 		vt = addp(campo, vld);
-                
 		mat4 camm = qinvm(camtr(campo,vt,up)); 
 	//	point campos = getcamp(campo);
                 for(int tr=0;tr<=11;tr++){ //for all triangols

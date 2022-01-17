@@ -165,3 +165,16 @@ void mkpir(tri *obj,double size){
 	obj[3] = amktri(t4);
 	obj[4] = amktri(t5);
 	obj[5] = amktri(t6);}
+
+void mkfile(tri *obj){
+	FILE *fp = fopen("lorem.txt", "r");
+	if(fp == NULL) {
+		perror("Unable to open file!");
+		fclose(fp);
+		exit(1);
+
+	}else{}
+	fclose(fp);
+
+
+}

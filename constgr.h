@@ -167,13 +167,34 @@ void mkpir(tri *obj,double size){
 	obj[5] = amktri(t6);}
 
 void mkfile(tri *obj){
-	FILE *fp = fopen("lorem.txt", "r");
-	if(fp == NULL) {
-		perror("Unable to open file!");
-		fclose(fp);
-		exit(1);
+	FILE *fp = fopen("testSuperPOLY.obj","r");
+	point pbuff[2028];
+	int pcnt = 1;
+	int tricnt = 0;
+	int lines = 2000;
+	if (fp == NULL) 
+            {   
+              printf("Error! Could not open file\n"); 
+              exit(-1); 
+            }
+		    char a;
+		while(fscanf(fp,"%c ",&a)!= EOF){
 
-	}else{}
+			if(a == 'v'){
+				
+        double x,y,z;
+				fscanf(fp,"%lf %lf %lf ",&x,&y,&z);
+				pbuff[pcnt]=mkp(x,y,z);
+				pcnt++;
+			}
+			else if(a == 'f'){
+
+	int x,y,z;
+				fscanf(fp,"%d %d %d ",&x,&y,&z);
+				obj[tricnt]=mktri(pbuff[(int)x],pbuff[(int)y],pbuff[(int)z]);
+				tricnt++;
+			}
+		}
 	fclose(fp);
 
 

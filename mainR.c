@@ -51,13 +51,13 @@ int offs = 0;
         clear();
         curs_set(0);
         printf("f");
-        tri tb[12] = {0}; //declares  an array for all triangles in cube
+        tri tb[601] = {0}; //declares  an array for all triangles in cube
          //makes triangulated cube and puts triangles to tbi
-        mkcube(tb,1);
+        mkfile(tb);
 	point up = mkp(0,1,0);
         point sun = mkp(-1,3,-1);
-        point campo = mkp(0,0,10);
-	point vld = mkp(0,0,10);	
+        point campo = mkp(0,0,100);
+	point vld = mkp(0,0,50);	
 	double yr = 0;
 	double xr = 0;
 	double zr = 0;
@@ -67,7 +67,7 @@ int offs = 0;
 		system("/bin/stty raw");
 
 		c=getchar();
-		if(c == 'w'){campo = subp(campo,divpn(vld,50));}
+		if(c == 'w'){campo = subp(campo,vld);}
 		if(c == 's'){campo = addp(campo,divpn(vld,50));}
 		if(c == 'd'){campo = subp(campo,divpn(normp(crossp(vld,up)),50));}
                 if(c == 'a'){campo = addp(campo,divpn(normp(crossp(vld,up)),50));}
@@ -84,11 +84,11 @@ int offs = 0;
 		vt = addp(campo, vld);
 		mat4 camm = qinvm(camtr(campo,vt,up)); 
 	//	point campos = getcamp(campo);
-                for(int tr=0;tr<=11;tr++){ //for all triangols
+                for(int tr=0;tr<=301;tr++){ //for all triangols
 			tri fint;
                         ioctl( 0, TIOCGWINSZ, &sz );
 			point screen = mkp(sz.ws_col,sz.ws_row*2,0);
-			if(dot(trinorm(tb[tr]),subp(tb[tr].p1,campo)) <0 ){
+	if(dot(trinorm(tb[tr]),subp(tb[tr].p1,campo)) <0 ){
 
 
 				fint.p1 = multm(tb[tr].p1,camm);
@@ -106,7 +106,7 @@ int offs = 0;
 
 				double shade = calcshade(tb[tr],campo);
 				scanln(fint,shade);
-                        }
+                       }
                 }
                 nanosleep((const struct timespec[]){{0, 5000000L}}, NULL); //wait some time between frames
                 refresh();

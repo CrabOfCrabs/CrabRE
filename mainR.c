@@ -54,7 +54,7 @@ int offs = 0;
         tri tb[601] = {0}; //declares  an array for all triangles in cube
          //makes triangulated cube and puts triangles to tbi
         mkfile(tb);
-	point up = mkp(0,1,0);
+	point up = mkp(0,-1,0);
         point sun = mkp(-1,3,-1);
         point campo = mkp(0,0,100);
 	point vld = mkp(0,0,50);	
@@ -68,11 +68,11 @@ int offs = 0;
 
 		c=getchar();
 		if(c == 'w'){campo = subp(campo,vld);}
-		if(c == 's'){campo = addp(campo,divpn(vld,50));}
-		if(c == 'd'){campo = subp(campo,divpn(normp(crossp(vld,up)),50));}
-                if(c == 'a'){campo = addp(campo,divpn(normp(crossp(vld,up)),50));}
-		if(c == 'r'){campo.y = campo.y - 0.05;}
-                if(c == 'f'){campo.y = campo.y + 0.05;}
+		if(c == 's'){campo = addp(campo,divpn(vld,5));}
+		if(c == 'd'){campo = subp(campo,divpn(normp(crossp(vld,up)),5));}
+                if(c == 'a'){campo = addp(campo,divpn(normp(crossp(vld,up)),5));}
+		if(c == 'r'){campo.y = campo.y - 0.5;}
+                if(c == 'f'){campo.y = campo.y + 0.5;}
 		if(c == 'l'){yr +=0.05;}
                 if(c == 'j'){yr -=0.05;}
 		if(c == 'k'){xr +=0.05;}
@@ -84,7 +84,7 @@ int offs = 0;
 		vt = addp(campo, vld);
 		mat4 camm = qinvm(camtr(campo,vt,up)); 
 	//	point campos = getcamp(campo);
-                for(int tr=0;tr<=301;tr++){ //for all triangols
+                for(int tr=0;tr<=601;tr++){ //for all triangols
 			tri fint;
                         ioctl( 0, TIOCGWINSZ, &sz );
 			point screen = mkp(sz.ws_col,sz.ws_row*2,0);

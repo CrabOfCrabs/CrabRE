@@ -169,30 +169,26 @@ void mkpir(tri *obj,double size){
 void mkfile(tri *obj){
 	FILE *fp = fopen("testSuperPOLY.obj","r");
 	point pbuff[2028];
-	int pcnt = 1;
+	int pcnt = 0;
 	int tricnt = 0;
-	int lines = 2000;
 	if (fp == NULL) 
             {   
               printf("Error! Could not open file\n"); 
               exit(-1); 
-            }
+            }     double x,y,z;
+
 		    char a;
-		while(fscanf(fp,"%c ",&a)!= EOF){
+		while(fscanf(fp,"%c %lf %lf %lf ",&a,&x,&y,&z)!= EOF){
 
 			if(a == 'v'){
-				
-        double x,y,z;
-				fscanf(fp,"%lf %lf %lf ",&x,&y,&z);
 				pbuff[pcnt]=mkp(x,y,z);
 				pcnt++;
+				fflush(stdin);
 			}
-			else if(a == 'f'){
-
-	int x,y,z;
-				fscanf(fp,"%d %d %d ",&x,&y,&z);
+			if(a == 'f'){
 				obj[tricnt]=mktri(pbuff[(int)x],pbuff[(int)y],pbuff[(int)z]);
 				tricnt++;
+				fflush(stdin);
 			}
 		}
 	fclose(fp);

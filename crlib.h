@@ -18,7 +18,18 @@ camera lcam;
 
 double clamp(double n,double max,double min){if(n<min){n=min;}else if(n>max){n=max;}return n;}
 
+int compare_function(const void *a,const void *b){
+tri *x = (tri *) a;
+tri *y = (tri *) b;
 
+double z1 = (x->p1.z + x->p2.z + x->p3.z)/3;
+double z2 = (y->p1.z + y->p2.z + y->p3.z)/3;
+if(z1 < z2){
+	return -1;}
+else if(z1 > z2){
+	return 1;}
+else{return 0;}
+}
 
 
 //void update_cam(){camera *c; c = &lcam;c->atV = at; c->toV = to;c->upV = camSpace_up;}

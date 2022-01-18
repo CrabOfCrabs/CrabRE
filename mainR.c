@@ -84,7 +84,8 @@ int offs = 0;
 		vt = addp(campo, vld);
 		mat4 camm = qinvm(camtr(campo,vt,up)); 
 	//	point campos = getcamp(campo);
-                for(int tr=0;tr<=601;tr++){ //for all triangols
+		tri tristack[601] = {0};
+                for(int tr=0;tr<=600;tr++){ //for all triangols
 			tri fint;
                         ioctl( 0, TIOCGWINSZ, &sz );
 			point screen = mkp(sz.ws_col,sz.ws_row*2,0);
@@ -103,10 +104,15 @@ int offs = 0;
 				fint.p1 = normdcp(fint.p1,screen);
 				fint.p2 = normdcp(fint.p2,screen);
 				fint.p3 = normdcp(fint.p3,screen);
-
 				double shade = calcshade(tb[tr],campo);
-				scanln(fint,shade);
-                       }
+				fint.gs = shade;
+		tristack[tr] = fint;
+		}
+		qsort(tristack,601,sizeof(tri),compare_function);
+		for(int tt = 0;tt<=600;tt++){
+			scanln(tristack[tt],tristack[tt].gs);
+
+		}
                 }
                 nanosleep((const struct timespec[]){{0, 5000000L}}, NULL); //wait some time between frames
                 refresh();

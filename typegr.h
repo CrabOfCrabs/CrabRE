@@ -11,7 +11,7 @@ double dot(point p1,point p2);point subp(point p1,point p2);point divp(point p1,
 //data type of a line
 typedef struct lines{point p1;point p2;}line;
 //data type of a triangle
-typedef struct triangle{point p1;point p2;point p3;}tri;
+typedef struct triangle{point p1;point p2;point p3;double gs;}tri;
 tri amktri(double tarr[8]);point trinorm(tri t);
 //data for mesh contains all points and tris with pointers to poiters to tris and pointers to pointers to poitnts define with mesh.pa = calloc(size,sizeof(point*)) same for tris
 typedef struct meshes{int n;tri tap[];}mesh; //mesh made of points and triangles that have pointers to points)
@@ -114,7 +114,7 @@ double inpolx(line l,double y){double x = l.p1.x + (l.p2.x - l.p1.x)*(y - l.p1.y
 */	
 
 //functions for triangle operations
-tri mktri(point p1,point p2,point p3){tri t = {p1,p2,p3};return t;}
+tri mktri(point p1,point p2,point p3){tri t = {p1,p2,p3,0};return t;}
 //makes tri with 9 numbers
 tri amktri(double tarr[9]){tri t = mktri(mkp(tarr[0],tarr[1],tarr[2]),mkp(tarr[3],tarr[4],tarr[5]),mkp(tarr[6],tarr[7],tarr[8]));return t;}
 

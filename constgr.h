@@ -183,12 +183,10 @@ void mkfile(tri *obj){
 			if(a == 'v'){
 				pbuff[pcnt]=mkp(x,y,z);
 				pcnt++;
-				fflush(stdin);
 			}
 			if(a == 'f'){
 				obj[tricnt]=mktri(pbuff[(int)x],pbuff[(int)y],pbuff[(int)z]);
 				tricnt++;
-				fflush(stdin);
 			}
 		}
 	fclose(fp);

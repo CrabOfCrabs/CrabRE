@@ -58,7 +58,7 @@ return t1;}
 
 //this shit does all the things for you but sometimes its doing some weird shit
 point fastproj(point p,point screen){
-	point cor = multm(p,qinvm(camtr(lcam.atV,lcam.toV,lcam.upV))); 
+	point cor =  multm(p,qinvm(camtr(lcam.atV,lcam.toV,lcam.upV)));
 	point coff = multm(cor,ppm(screen));	
 	point enp = normdcp(coff,screen);
 return enp;}
@@ -68,6 +68,7 @@ tri ziprent(tri t,point screen){
 			fastproj(t.p3,screen));
 return t1;}
 
+point getcampo(point p,camera rcam){point pct = multm(p,camtr(rcam.atV,rcam.toV,rcam.upV));return pct;}
 /*	
 	DRAWING FUNCTIONS //will be moved to a seperate graphis handling library or 2d objects
 */

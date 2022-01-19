@@ -51,13 +51,13 @@ int offs = 0;
         clear();
         curs_set(0);
         printf("f");
-        tri tb[601] = {0}; //declares  an array for all triangles in cube
+        tri tb[300] = {0}; //declares  an array for all triangles in cube
          //makes triangulated cube and puts triangles to tbi
         mkfile(tb);
 	point up = mkp(0,-1,0);
         point sun = mkp(-1,3,-1);
         point campo = mkp(0,0,100);
-	point vld = mkp(0,0,50);	
+	point vld = mkp(0,0,1);	
 	double yr = 0;
 	double xr = 0;
 	double zr = 0;
@@ -67,30 +67,28 @@ int offs = 0;
 		system("/bin/stty raw");
 
 		c=getchar();
-		if(c == 'w'){campo = subp(campo,vld);}
-		if(c == 's'){campo = addp(campo,divpn(vld,5));}
-		if(c == 'd'){campo = subp(campo,divpn(normp(crossp(vld,up)),5));}
-                if(c == 'a'){campo = addp(campo,divpn(normp(crossp(vld,up)),5));}
-		if(c == 'r'){campo.y = campo.y - 0.5;}
-                if(c == 'f'){campo.y = campo.y + 0.5;}
-		if(c == 'l'){yr +=0.05;}
-                if(c == 'j'){yr -=0.05;}
-		if(c == 'k'){xr +=0.05;}
-                if(c == 'i'){xr -=0.05;}
+		if(c == 'w'){campo = subp(campo,divpn(vld,5));}
+		else if(c == 's'){campo = addp(campo,divpn(vld,5));}
+		else if(c == 'd'){campo = subp(campo,divpn(normp(crossp(vld,up)),5));}
+		else if(c == 'a'){campo = addp(campo,divpn(normp(crossp(vld,up)),5));}
+		else if(c == 'r'){campo.y = campo.y - 0.5;}
+		else if(c == 'f'){campo.y = campo.y + 0.5;}
+		else if(c == 'l'){yr -=0.05;}
+		else if(c == 'j'){yr +=0.05;}
+		else if(c == 'k'){xr -=0.05;}
+		else if(c == 'i'){xr +=0.05;}
 	
-		if(c == 'e'){system("clear");system("/bin/stty sane");exit(1);}
+		else if(c == 'e'){system("clear");system("/bin/stty sane");exit(1);}
 		point vt = mkp( 0,0,1 );
 		vld = multm(multm(vt,crmx(xr)),crmy(yr));
 		vt = addp(campo, vld);
 		mat4 camm = qinvm(camtr(campo,vt,up)); 
-	//	point campos = getcamp(campo);
-		tri tristack[601] = {0};
-                for(int tr=0;tr<=600;tr++){ //for all triangols
-			tri fint;
+		tri tristack[300] = {0};
+                for(int tr=0;tr<=300;tr++){ //for all triangols
                         ioctl( 0, TIOCGWINSZ, &sz );
 			point screen = mkp(sz.ws_col,sz.ws_row*2,0);
-	if(dot(trinorm(tb[tr]),subp(tb[tr].p1,campo)) <0 ){
-
+		if(dot(trinorm(tb[tr]),subp(tricenp(tb[tr]),campo)) < 0 ){
+				tri fint;
 
 				fint.p1 = multm(tb[tr].p1,camm);
 				fint.p2 = multm(tb[tr].p2,camm);
@@ -107,13 +105,13 @@ int offs = 0;
 				double shade = calcshade(tb[tr],campo);
 				fint.gs = shade;
 		tristack[tr] = fint;
-		}
-		qsort(tristack,601,sizeof(tri),compare_function);
-		for(int tt = 0;tt<=600;tt++){
+		}	}
+		qsort(tristack,300,sizeof(tri),compare_function);
+		for(int tt = 0;tt<=300;tt++){
 			scanln(tristack[tt],tristack[tt].gs);
 
 		}
-                }
+                
                 nanosleep((const struct timespec[]){{0, 5000000L}}, NULL); //wait some time between frames
                 refresh();
                 clear();

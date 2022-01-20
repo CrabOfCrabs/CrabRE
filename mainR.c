@@ -114,7 +114,6 @@ int offs = 0;
                 
                 nanosleep((const struct timespec[]){{0, 5000000L}}, NULL); //wait some time between frames
                 refresh();
-                clear();
         }
         refresh();
         getch();

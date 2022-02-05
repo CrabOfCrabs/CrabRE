@@ -120,22 +120,20 @@ return pm;}
 */	
 
 //predefined square with size as edge lenght its center will be at 0,0,0 	
-void mkcube(tri *obj,double size){
+void mkcube(tri *obj){
 	
-	double smax = size/2;
-	double smin = -size/2;
-	double t1[9]={ smin,smin,smin,smin,smax,smin,smax,smax,smin };
-	double t2[9]={ smin,smin,smin,smax,smax,smin,smax,smin,smin };
-	double t3[9]={ smax,smin,smin,smax,smax,smin,smax,smax,smax };
-	double t4[9]={ smax,smin,smin,smax,smax,smax,smax,smin,smax};
-	double t5[9]={ smax,smin,smax,smax,smax,smax,smin,smax,smax };
-	double t6[9]={ smax,smin,smax,smin,smax,smax,smin,smin,smax };
-	double t7[9]={ smin,smin,smax,smin,smax,smax,smin,smax,smin };
-	double t8[9]={ smin,smin,smax,smin,smax,smin,smin,smin,smin };
-	double t9[9]={ smin,smax,smin,smin,smax,smax,smax,smax,smax };
-	double t10[9]={ smin,smax,smin,smax,smax,smax,smax,smax,smin };
-	double t11[9]={ smax,smin,smax,smin,smin,smax,smin,smin,smin };
-	double t12[9]={ smax,smin,smax,smin,smin,smin,smax,smin,smin };
+	double t1[9]={ -0.5,-0.5,-0.5,-0.5,0.5,-0.5,0.5,0.5,-0.5 };
+	double t2[9]={ -0.5,-0.5,-0.5,0.5,0.5,-0.5,0.5,-0.5,-0.5 };
+	double t3[9]={ 0.5,-0.5,-0.5,0.5,0.5,-0.5,0.5,0.5,0.5 };
+	double t4[9]={ 0.5,-0.5,-0.5,0.5,0.5,0.5,0.5,-0.5,0.5};
+	double t5[9]={ 0.5,-0.5,0.5,0.5,0.5,0.5,-0.5,0.5,0.5 };
+	double t6[9]={ 0.5,-0.5,0.5,-0.5,0.5,0.5,-0.5,-0.5,0.5 };
+	double t7[9]={ -0.5,-0.5,0.5,-0.5,0.5,0.5,-0.5,0.5,-0.5 };
+	double t8[9]={ -0.5,-0.5,0.5,-0.5,0.5,-0.5,-0.5,-0.5,-0.5 };
+	double t9[9]={ -0.5,0.5,-0.5,-0.5,0.5,0.5,0.5,0.5,0.5 };
+	double t10[9]={ -0.5,0.5,-0.5,0.5,0.5,0.5,0.5,0.5,-0.5 };
+	double t11[9]={ 0.5,-0.5,0.5,-0.5,-0.5,0.5,-0.5,-0.5,-0.5 };
+	double t12[9]={ 0.5,-0.5,0.5,-0.5,-0.5,-0.5,0.5,-0.5,-0.5 };
 	                                                      	
 	obj[0] = amktri(t1);
 	obj[1] = amktri(t2);
@@ -150,14 +148,14 @@ void mkcube(tri *obj,double size){
 	obj[10] = amktri(t11);
 	obj[11] = amktri(t12);}
 
-void mkpir(tri *obj,double size){
+void mkpir(tri *obj){
 
-	double t1[9]={ 0,0,1,0,0,0,1,0,0 };
-	double t2[9]={ 0,0,1,1,0,0,1,0,1};
-	double t3[9]={ 0,0,0,0,0,1,0.5,2,0.5 };
-	double t4[9]={ 0,0,0,0.5,2,0.5,1,0,0};
-	double t5[9]={ 0,0,1,1,0,1,0.5,2,0.5 };
-	double t6[9]={ 0.5,2,0.5,1,0,1,1,0,0 };
+	double t1[9]={ -0.5,-0.5,0.5,-0.5,-0.5,-0.5,0.5,-0.5,-0.5 };
+	double t2[9]={ -0.5,-0.5,0.5,0.5,-0.5,-0.5,0.5,-0.5,0.5};
+	double t3[9]={ -0.5,-0.5,-0.5,-0.5,-0.5,0.5,0,1,0 };
+	double t4[9]={ -0.5,-0.5,-0.5,0,1,0,0.5,-0.5,-0.5};
+	double t5[9]={ -0.5,-0.5,0.5,0.5,-0.5,0.5,0,1,0 };
+	double t6[9]={ 0,1,0,0.5,-0.5,0.5,0.5,-0.5,-0.5 };
 
 	obj[0] = amktri(t1);
 	obj[1] = amktri(t2);
@@ -166,8 +164,8 @@ void mkpir(tri *obj,double size){
 	obj[4] = amktri(t5);
 	obj[5] = amktri(t6);}
 
-void mkfile(tri *obj){
-	FILE *fp = fopen("testSuperPOLY.obj","r");
+void mkfile2(tri *obj){
+	FILE *fp = fopen("testSuperPOLY (1).obj","r");
 	point pbuff[2028];
 	int pcnt = 0;
 	int tricnt = 0;
@@ -193,3 +191,32 @@ void mkfile(tri *obj){
 
 
 }
+
+void mkfile(tri *obj){
+	FILE *fp = fopen("testSuperPOLY (1).obj","r");
+
+	point pbuff[2028];
+	char lbuff[64];
+	int pcnt = 1,tricnt = 0;
+	int i,j,n;
+	if(fp == NULL){exit(-1);}
+	while(fgets(lbuff,sizeof(lbuff),fp)){
+		char strbuff[3][64];
+		j = 0;
+		n = 0;
+		if(lbuff[0] == 'f'){
+			for(i=2;i<=(strlen(lbuff));i++){
+				if(lbuff[i]==' ' || lbuff[i] == '\b'){strbuff[n][j] = '\0';n++;j = 0;} //seperate if space and add str end
+				else{strbuff[n][j] = lbuff[i];j++;}} //add letter from line buff to string under index n	
+			obj[tricnt] = mktri(pbuff[atoll(strbuff[0])],pbuff[atoll(strbuff[1])],pbuff[atoll(strbuff[2])]);
+			tricnt++;}
+		else if(lbuff[0] == 'v'){
+			for(i=2;i<=(strlen(lbuff));i++){
+				if(lbuff[i]==' ' || lbuff[i] == '\b'){strbuff[n][j] = '\0';n++;j = 0;} //seperate if space and add str end
+				else{strbuff[n][j] = lbuff[i];j++;}} //add letter from line buff to string under index n	
+			pbuff[pcnt] = mkp(strtof(strbuff[0],NULL),strtof(strbuff[1],NULL),strtof(strbuff[2],NULL));
+			pcnt++;}}
+	fclose(fp);}
+
+
+

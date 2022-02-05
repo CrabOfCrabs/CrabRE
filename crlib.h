@@ -1,3 +1,12 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <time.h>
+#include <sys/ioctl.h>
+#include <math.h>
+#include <stdbool.h>
+#include <curses.h>
+#include <string.h>
 #include "typegr.h"
 #include "constgr.h"
 
@@ -5,12 +14,8 @@
 /*	
 	HEADER CONSTANT //will be move to main toggles file in future
 */
-point zero = {0,0,0,1};
-point def_target = {0,0,1,1};
-point camSpace_up = {0,1,0,1};
-
 bool inToggle = false;
-camera lcam;
+
 
 /*	
 	GENERAL PURPOSE FUNCTIONS //will be move to general use header
@@ -32,8 +37,6 @@ else{return 0;}
 }
 
 
-//void update_cam(){camera *c; c = &lcam;c->atV = at; c->toV = to;c->upV = camSpace_up;}
-void atto_cam(point at,point to){camera *c; c = &lcam;c->atV = at; c->toV = to;c->upV = camSpace_up;}
 
 
 
@@ -55,7 +58,7 @@ tri trant(tri t,point rc,point pc,point co,point os){
 	tri t1 = mktri(tranp(t.p1,rc,pc,co,os),tranp(t.p2,rc,pc,co,os),tranp(t.p3,rc,pc,co,os));
 return t1;}
 
-
+/*
 //this shit does all the things for you but sometimes its doing some weird shit
 point fastproj(point p,point screen){
 	point cor =  multm(p,qinvm(camtr(lcam.atV,lcam.toV,lcam.upV)));
@@ -67,7 +70,7 @@ tri ziprent(tri t,point screen){
 			fastproj(t.p2,screen),
 			fastproj(t.p3,screen));
 return t1;}
-
+*/
 point getcampo(point p,camera rcam){point pct = multm(p,camtr(rcam.atV,rcam.toV,rcam.upV));return pct;}
 /*	
 	DRAWING FUNCTIONS //will be moved to a seperate graphis handling library or 2d objects
@@ -77,24 +80,24 @@ point getcampo(point p,camera rcam){point pct = multm(p,camtr(rcam.atV,rcam.toV,
 void chshaded(point p){
 	int offs = 0;
 	double y=p.y, x=p.x, lg=p.z; //z is shade val
-		
+	
 	if(lg>1){
 	mvprintw(y/2+offs,x+offs,"M");}
-	else if(lg<=1 && lg>0.9){
+	else if(lg<=1 && lg>0.7){
 	mvprintw(y/2+offs,x+offs,"#");}
-	else if(lg<=0.9 && lg>0.8){
-	mvprintw(y/2+offs,x+offs,"@");}
-	else if(lg<=0.8 && lg>0.7){
-	mvprintw(y/2+offs,x+offs,"8");}
 	else if(lg<=0.7 && lg>0.6){
-	mvprintw(y/2+offs,x+offs,"&");}
+	mvprintw(y/2+offs,x+offs,"@");}
 	else if(lg<=0.6 && lg>0.5){
-	mvprintw(y/2+offs,x+offs,"o");}
+	mvprintw(y/2+offs,x+offs,"8");}
 	else if(lg<=0.5 && lg>0.4){
-	mvprintw(y/2+offs,x+offs,"*");}
+	mvprintw(y/2+offs,x+offs,"&");}
 	else if(lg<=0.4 && lg>0.3){
+	mvprintw(y/2+offs,x+offs,"o");}
+	else if(lg<=0.3 && lg>0.2){
+	mvprintw(y/2+offs,x+offs,"*");}
+	else if(lg<=0.2 && lg>0.1){
 	mvprintw(y/2+offs,x+offs,":");}
-	else if(lg<=0.3 && lg>=0){
+	else if(lg<=0.1 && lg>=0){
 	mvprintw(y/2+offs,x+offs,".");}}
 void drawline2d(point p1,point p2){
 	double dx, dy, p, x, y;int offs = 20;double x1 = p1.x;double x2 = p2.x;dy=0;double x2l;

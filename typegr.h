@@ -65,7 +65,7 @@ point tricenp(tri t){
 	return p;}
 point crossp(point U ,point V){point c = mkp((U.y*V.z)-(U.z*V.y), (U.z*V.x)-(U.x*V.z), (U.x*V.y)-(U.y*V.x));return c;}
 
-point normdcp(point p,point screen){point pw = mkp(p.x/p.w,p.y/p.w,p.z/p.w);point op = { screen.x * 0.5 *(-1*pw.x+1),screen.y * 0.5 * (-1*pw.y+1),0.5*pw.z + 0.5,0};return op;}
+point normdcp(point p,point screen){point pw = mkp(p.x/p.w,p.y/p.w,p.z/p.w);point op = { screen.x * 0.5 *(pw.x+1),screen.y * 0.5 * (pw.y+1),0.5*pw.z + 0.5,0};return op;}
 
 point multm(point p,mat4 m){
 	point o;
@@ -144,7 +144,7 @@ bool PointInTriangle (tri t, point p){
 double calcshade(tri t,point s){
 	point v = normp(s);
 	point tn = trinorm(t);
-	double out = dot(tn,v);
+	double out = dot(v,tn);
 	return out;}
 
 point trinorm(tri t){

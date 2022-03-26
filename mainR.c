@@ -20,8 +20,8 @@ int offs = 0;
 	struct winsize sz;
         while(1){ //rotate in radianosi
 		system("/bin/stty raw");
-		point up = {0,1,0,1};
-		point vt = {0,0,-1,1};
+		point up = {0,1,0,0};
+		point vt = {0,0,1,0};
 		c=getchar();
 		switch(c){
 			case'w' : campo = subp(campo,divpn(vld,5));break;

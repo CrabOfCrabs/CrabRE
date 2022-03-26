@@ -78,53 +78,51 @@ point getcampo(point p,camera rcam){point pct = multm(p,camtr(rcam.atV,rcam.toV,
 
 //scanline top and down triangle projection
 void chshaded(point p){
-	int offs = 0;
+	 
 	double y=p.y, x=p.x, lg=p.z; //z is shade val
 	
 	if(lg>1){
-	mvprintw(y/2+offs,x+offs,"M");}
+	mvprintw(y/2,x,"M");}
 	else if(lg<=1 && lg>0.7){
-	mvprintw(y/2+offs,x+offs,"#");}
+	mvprintw(y/2,x,"#");}
 	else if(lg<=0.7 && lg>0.6){
-	mvprintw(y/2+offs,x+offs,"@");}
+	mvprintw(y/2,x,"@");}
 	else if(lg<=0.6 && lg>0.5){
-	mvprintw(y/2+offs,x+offs,"8");}
+	mvprintw(y/2,x,"8");}
 	else if(lg<=0.5 && lg>0.4){
-	mvprintw(y/2+offs,x+offs,"&");}
+	mvprintw(y/2,x,"&");}
 	else if(lg<=0.4 && lg>0.3){
-	mvprintw(y/2+offs,x+offs,"o");}
+	mvprintw(y/2,x,"o");}
 	else if(lg<=0.3 && lg>0.2){
-	mvprintw(y/2+offs,x+offs,"*");}
+	mvprintw(y/2,x,"*");}
 	else if(lg<=0.2 && lg>0.1){
-	mvprintw(y/2+offs,x+offs,":");}
+	mvprintw(y/2,x,":");}
 	else if(lg<=0.1 && lg>=0){
-	mvprintw(y/2+offs,x+offs,".");}}
-void drawline2d(point p1,point p2){
-	double dx, dy, p, x, y;int offs = 20;double x1 = p1.x;double x2 = p2.x;dy=0;double x2l;
+	mvprintw(y/2,x,".");}}
+
+void drawline2d(point p1,point p2){ //p1 z is the shade of tri
+	double dx, dy=0, p, x, y, x1 = p1.x, x2 = p2.x, x2l;
+
 	if(x1<=x2){x=x1;dx=x2-x1;x2l = x2;}else{x=x2;dx=x1-x2;x2l = x1;}y=p1.y;p=2*dy-dx;
-	double lg = p1.z;
 	while(x<x2l){
-		if(p>=0){chshaded(mkp(x,y,lg));y=y+1;p=p+2*dy-2*dx;}else{chshaded(mkp(x,y,lg));p=p+2*dy;}x=x+1;}}
+		if(p>=0){chshaded(mkp(x,y,p1.z));y=y+1;p=p+2*dy-2*dx;}else{chshaded(mkp(x,y,p1.z));p=p+2*dy;}x=x+1;}}
+
 void drawtup(tri t,double lg){
 	point p1 = t.p1,p2 = t.p2,p3 = t.p3;
-	double invslope1 = (p2.x - p1.x) / (p2.y - p1.y);
-	double invslope2 = (p3.x - p1.x) / (p3.y - p1.y);
-	
-	double curx1 = p1.x;
-	double curx2 = p1.x;
-double offs = 20;
+	double invslope1 = (p2.x - p1.x) / (p2.y - p1.y),
+	       invslope2 = (p3.x - p1.x) / (p3.y - p1.y),
+	       curx1 = p1.x, 
+	       curx2 = p1.x;
 	for(double Y = p1.y; Y <= p2.y; Y++){
 		drawline2d(mkp(curx1,Y,lg),mkp(curx2,Y,0));
 		curx1 += invslope1;
 		curx2 += invslope2;}}
 void drawtdown(tri t,double lg){
 	point p1 = t.p1,p2 = t.p2,p3 = t.p3;
-	double invslope1 = (p3.x - p1.x) / (p3.y - p1.y);
-	double invslope2 = (p3.x - p2.x) / (p3.y - p2.y);
-	
-	double curx1 = p3.x;
-	double curx2 = p3.x;
-	double offs = 20;
+	double invslope1 = (p3.x - p1.x) / (p3.y - p1.y), 
+	       invslope2 = (p3.x - p2.x) / (p3.y - p2.y), 
+	       curx1 = p3.x, 
+	       curx2 = p3.x;
 	for(double Y = p3.y; Y >p1.y; Y--){
 		drawline2d(mkp(curx1,Y,lg),mkp(curx2,Y,0));
 		curx1 -= invslope1;

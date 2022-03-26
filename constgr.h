@@ -193,7 +193,7 @@ void mkfile2(tri *obj){
 }
 
 void mkfile(tri *obj){
-	FILE *fp = fopen("testSuperPOLY-1.obj","r");
+	FILE *fp = fopen("testSuperPOLY-1.obj","r"); //file to read (needs to be obj)
 
 	point pbuff[2028];
 	char lbuff[64];

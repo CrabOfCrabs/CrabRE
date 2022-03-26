@@ -193,9 +193,9 @@ void mkfile2(tri *obj){
 }
 
 void mkfile(tri *obj){
-	FILE *fp = fopen("testSuperPOLY-1.obj","r"); //file to read (needs to be obj)
+	FILE *fp = fopen("utah.obj","r"); //file to read (needs to be obj)
 
-	point pbuff[2028];
+	point pbuff[5000];
 	char lbuff[64];
 	int pcnt = 1,tricnt = 0;
 	int i,j,n;

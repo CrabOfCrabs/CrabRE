@@ -5,12 +5,12 @@ int offs = 0;
         initscr();
         clear();
         curs_set(0);
-        tri tb[400] = {0}; //declares  an array for all triangles in cube
+        tri tb[6500] = {0}; //declares  an array for all triangles in cube
          //makes triangulated cube and puts triangles to tbi
         mkfile(tb);
 	point up;
         point sun = mkp(0,1,-1);
-        point campo = mkp(0,0,100);
+        point campo = mkp(0,0,10);
 	point vld;
 	point r = mkp(0,0,0);	
 	double yr = 0;
@@ -39,8 +39,8 @@ int offs = 0;
 		vld = multm(vt,multms(crmx(xr),crmy(yr)));
 		vt = addp(campo, vld);
 		mat4 camm = qinvm(camtr(campo,vt,up)); 
-		tri tristack[400] = {0};
-                for(int tr=0;tr<=400;tr++){ //for all triangols
+		tri tristack[6500] = {0};
+                for(int tr=0;tr<=6500;tr++){ //for all triangols
                         ioctl( 0, TIOCGWINSZ, &sz );
 			point screen = mkp(sz.ws_col,sz.ws_row*2,0);
 			if(dot(trinorm(tb[tr]),subp(tricenp(tb[tr]),campo)) < 0 ){
@@ -62,9 +62,9 @@ int offs = 0;
 				fint.gs = -shade;
 			tristack[tr] = fint;}}
 
-		qsort(tristack,400,sizeof(tri),compare_function);
+		qsort(tristack,6500,sizeof(tri),compare_function);
 		clear();
-		for(int tt = 0;tt<=400;tt++){
+		for(int tt = 0;tt<=6500;tt++){
 			scanln(tristack[tt],tristack[tt].gs);}
                 
                 nanosleep((const struct timespec[]){{0, 5000000L}}, NULL); //wait some time between frames

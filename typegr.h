@@ -75,21 +75,21 @@ point multm(point p,mat4 m){
 	o.w = p.x * m.m[0][3] + p.y * m.m[1][3] + p.z * m.m[2][3] + p.w * m.m[3][3];
 	return o;}
 mat4 qinvm(mat4 m){//only for lookat inverse
-		mat4 matrix;
-		matrix.m[0][0] = m.m[0][0]; matrix.m[0][1] = m.m[1][0]; matrix.m[0][2] = m.m[2][0]; matrix.m[0][3] = 0;
-		matrix.m[1][0] = m.m[0][1]; matrix.m[1][1] = m.m[1][1]; matrix.m[1][2] = m.m[2][1]; matrix.m[1][3] = 0;
-		matrix.m[2][0] = m.m[0][2]; matrix.m[2][1] = m.m[1][2]; matrix.m[2][2] = m.m[2][2]; matrix.m[2][3] = 0;
-		matrix.m[3][0] = -(m.m[3][0] * matrix.m[0][0] + m.m[3][1] * matrix.m[1][0] + m.m[3][2] * matrix.m[2][0]);
-		matrix.m[3][1] = -(m.m[3][0] * matrix.m[0][1] + m.m[3][1] * matrix.m[1][1] + m.m[3][2] * matrix.m[2][1]);
-		matrix.m[3][2] = -(m.m[3][0] * matrix.m[0][2] + m.m[3][1] * matrix.m[1][2] + m.m[3][2] * matrix.m[2][2]);
-		matrix.m[3][3] = 1;
-		return matrix;}		
+		mat4 mat;
+		mat.m[0][0] = m.m[0][0]; mat.m[0][1] = m.m[1][0]; mat.m[0][2] = m.m[2][0]; mat.m[0][3] = 0;
+		mat.m[1][0] = m.m[0][1]; mat.m[1][1] = m.m[1][1]; mat.m[1][2] = m.m[2][1]; mat.m[1][3] = 0;
+		mat.m[2][0] = m.m[0][2]; mat.m[2][1] = m.m[1][2]; mat.m[2][2] = m.m[2][2]; mat.m[2][3] = 0;
+		mat.m[3][0] = -(m.m[3][0] * mat.m[0][0] + m.m[3][1] * mat.m[1][0] + m.m[3][2] * mat.m[2][0]);
+		mat.m[3][1] = -(m.m[3][0] * mat.m[0][1] + m.m[3][1] * mat.m[1][1] + m.m[3][2] * mat.m[2][1]);
+		mat.m[3][2] = -(m.m[3][0] * mat.m[0][2] + m.m[3][1] * mat.m[1][2] + m.m[3][2] * mat.m[2][2]);
+		mat.m[3][3] = 1;
+		return mat;}		
 mat4 multms(mat4 m1,mat4 m2){
-	mat4 matrix;
+	mat4 mat;
 		for (int c = 0; c < 4; c++)
 			for (int r = 0; r < 4; r++)
-				matrix.m[r][c] = m1.m[r][0] * m2.m[0][c] + m1.m[r][1] * m2.m[1][c] + m1.m[r][2] * m2.m[2][c] + m1.m[r][3] * m2.m[3][c];
-return matrix;}
+				mat.m[r][c] = m1.m[r][0] * m2.m[0][c] + m1.m[r][1] * m2.m[1][c] + m1.m[r][2] * m2.m[2][c] + m1.m[r][3] * m2.m[3][c];
+return mat;}
 
 
 
@@ -140,6 +140,18 @@ bool PointInTriangle (tri t, point p){
 	has_neg = (d1 < 0) || (d2 < 0) || (d3 < 0);
 	has_pos = (d1 > 0) || (d2 > 0) || (d3 > 0);
 	return !(has_neg && has_pos);}
+
+int compare_function(const void *a,const void *b){
+	tri *x = (tri *) a;
+	tri *y = (tri *) b;
+
+	double z1 = (x->p1.z + x->p2.z + x->p3.z)/3;
+	double z2 = (y->p1.z + y->p2.z + y->p3.z)/3;
+	if(z1 < z2){
+		return -1;}
+	else if(z1 > z2){
+		return 1;}
+	else{return 0;}}
 
 double calcshade(tri t,point s){
 	point v = normp(s);

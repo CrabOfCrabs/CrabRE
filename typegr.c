@@ -1,32 +1,11 @@
-
-
-
-/*	
-	STRUCTURES FOR GRAPHICS
-*/	
-
-//new data type for a 2d point cords
-typedef struct points{double x;double y;double z;double w;}point;
-double dot(point p1,point p2);point subp(point p1,point p2);point divp(point p1,point p2);point mulpn(point p,double d);point normp(point p);double magp(point p);bool chckp(point p1,point p2);point crossp(point U, point V);//declarations of point functions
-//data type of a line
-typedef struct lines{point p1;point p2;}line;
-//data type of a triangle
-typedef struct triangle{point p1;point p2;point p3;double gs;}tri;
-tri amktri(double tarr[8]);point trinorm(tri t);
-//data for mesh contains all points and tris with pointers to poiters to tris and pointers to pointers to poitnts define with mesh.pa = calloc(size,sizeof(point*)) same for tris
-typedef struct meshes{int n;tri tap[];}mesh; //mesh made of points and triangles that have pointers to points)
-
-typedef struct mat4{double m[4][4];}mat4;
-
-typedef struct lookatcamera{point atV;point toV;point upV;}camera;
-
-
-
-
+#include "crlib.h"
 
 /*	
 	POINT OPERATION FUNCTIONS
 */	
+
+
+double clamp(double n,double max,double min){if(n<min){n=min;}else if(n>max){n=max;}return n;}
 
 //functions for point operations
 point mkp(double x,double y,double z){point p = {x,y,z,1};return p;} //makes a point
@@ -177,6 +156,6 @@ return tr;}
 	MESH OPERATION FUNCTIONS
 */
 
-mesh* mkmesh(tri ta[]){size_t st = sizeof(*ta)/sizeof(ta[0]);mesh *n = malloc(sizeof(mesh) + sizeof(tri [st]));return n;} //i really need to implement meshes
+//mesh* mkmesh(tri ta[]){size_t st = sizeof(*ta)/sizeof(ta[0]);mesh *n = malloc(sizeof(mesh) + sizeof(tri [st]));return n;} //i really need to implement meshes
 
 

@@ -1,4 +1,4 @@
-
+#include "crlib.h"
 // left handed system
 
 
@@ -16,8 +16,7 @@ mat4 idm(){
 	pm.m[2][2] = 1;
 	pm.m[3][3] = 1;
 
-return pm;}
-mat4 spos(point pos){
+return pm;}mat4 spos(point pos){
 	mat4 pm;pm.m[0][1] = 0;pm.m[0][2] = 0;pm.m[0][3] = 0;pm.m[1][0] = 0;pm.m[1][2] = 0;pm.m[1][3] = 0;pm.m[2][0] = 0;pm.m[2][1] = 0;pm.m[2][3] = 0;
 	
 	pm.m[0][0] = 1;
@@ -164,36 +163,8 @@ void mkpir(tri *obj){
 	obj[4] = amktri(t5);
 	obj[5] = amktri(t6);}
 
-void mkfile2(tri *obj){
-	FILE *fp = fopen("testSuperPOLY (1).obj","r");
-	point pbuff[2028];
-	int pcnt = 0;
-	int tricnt = 0;
-	if (fp == NULL) 
-            {   
-              printf("Error! Could not open file\n"); 
-              exit(-1); 
-            }     double x,y,z;
-
-		    char a;
-		while(fscanf(fp,"%c %lf %lf %lf ",&a,&x,&y,&z)!= EOF){
-
-			if(a == 'v'){
-				pbuff[pcnt]=mkp(x,y,z);
-				pcnt++;
-			}
-			if(a == 'f'){
-				obj[tricnt]=mktri(pbuff[(int)x],pbuff[(int)y],pbuff[(int)z]);
-				tricnt++;
-			}
-		}
-	fclose(fp);
-
-
-}
-
 void mkfile(tri *obj){
-	FILE *fp = fopen("utah.obj","r"); //file to read (needs to be obj)
+	FILE *fp = fopen("untitled.obj","r"); //file to read (needs to be obj)
 
 	point pbuff[5000];
 	char lbuff[64];

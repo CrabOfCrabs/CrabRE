@@ -1,14 +1,12 @@
 #include "crlib.h"
 
 void trirf(){
-int offs = 0;
         initscr();
         clear();
         curs_set(0);
         tri tb[6500] = {0}; //declares  an array for all triangles in cube
          //makes triangulated cube and puts triangles to tbi
         mkfile(tb);
-	point up;
         point sun = mkp(0,1,-1);
         point campo = mkp(0,0,20);
 	point vld;

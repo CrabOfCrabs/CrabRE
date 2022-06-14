@@ -164,7 +164,7 @@ void mkpir(tri *obj){
 	obj[5] = amktri(t6);}
 
 void mkfile(tri *obj){
-	FILE *fp = fopen("untitled.obj","r"); //file to read (needs to be obj)
+	FILE *fp = fopen("../test/obj/untitled.obj","r"); //file to read (needs to be obj)
 
 	point pbuff[5000];
 	char lbuff[64];

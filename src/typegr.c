@@ -152,6 +152,25 @@ tri psort(tri t){
 	if(tr.p1.y == tr.p2.y && tr.p1.x<tr.p2.x){ swapp(&tr.p1, &tr.p2); }
 	if(tr.p3.y == tr.p2.y && tr.p3.x<tr.p2.x){ swapp(&tr.p3, &tr.p2); }
 return tr;}
+                                                                        
+//this shit moves your tringle / point to world space but doesnt have to you can just predefine the rotation
+point tranp(point p,point xyzr,point objor,point objoff,point objsize){             point transformed = multm(p,multms(multms(multms(multms(multms(multm
+s(
+        //shittone f matrix multiplications and then multiply p by final mat
+rix
+        spos(objor),//origin
+        pscale(objsize)),//rescale
+        crmz(xyzr.z)),crmy(xyzr.y)),crmx(xyzr.x)),//zyx rotation
+        spos(objoff)),//final offset
+        idm()));//identity matrix
+return transformed;}
+tri trant(tri t,point rc,point pc,point co,point os){
+        tri t1 = mktri(tranp(t.p1,rc,pc,co,os),tranp(t.p2,rc,pc,co,os),tranp
+(t.p3,rc,pc,co,os));
+return t1;}
+
+point getcampo(point p,camera rcam){point pct = multm(p,camtr(rcam.atV,rcam.toV,rcam.upV));return pct;}
+
 /*	
 	MESH OPERATION FUNCTIONS
 */

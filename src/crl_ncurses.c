@@ -5,22 +5,7 @@
 	RENDER FUNCTIONS 
 */	
 
-//this shit moves your tringle / point to world space but doesnt have to you can just predefine the rotation
-point tranp(point p,point xyzr,point objor,point objoff,point objsize){
-	point transformed = multm(p,multms(multms(multms(multms(multms(multms(
-	//shittone f matrix multiplications and then multiply p by final matrix
-	spos(objor),//origin
-	pscale(objsize)),//rescale
-	crmz(xyzr.z)),crmy(xyzr.y)),crmx(xyzr.x)),//zyx rotation
-	spos(objoff)),//final offset
-	idm()));//identity matrix
-return transformed;}
-tri trant(tri t,point rc,point pc,point co,point os){
-	tri t1 = mktri(tranp(t.p1,rc,pc,co,os),tranp(t.p2,rc,pc,co,os),tranp(t.p3,rc,pc,co,os));
-return t1;}
 
-
-point getcampo(point p,camera rcam){point pct = multm(p,camtr(rcam.atV,rcam.toV,rcam.upV));return pct;}
 /*	
 	DRAWING FUNCTIONS //will be moved to a seperate graphis handling library or 2d objects
 */

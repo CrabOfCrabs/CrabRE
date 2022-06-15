@@ -8,7 +8,7 @@ void trirf(){
          //makes triangulated cube and puts triangles to tbi
         mkfile(tb);
         point sun = mkp(0,1,-1);
-        point campo = mkp(0,0,20);
+        point campo = mkp(0,0,10);
 	point vld;
 	point r = mkp(0,0,0);	
 	double yr = 0;

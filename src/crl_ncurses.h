@@ -1,5 +1,4 @@
 #include <curses.h>
-#include "crlib.h"
 
 /*	
 	RENDER FUNCTIONS 
@@ -61,7 +60,7 @@ void drawtdown(tri t,double lg){//draws the line parallel to y down
 		drawline2d(mkp(curx1,Y,lg),mkp(curx2,Y,0));
 		curx1 -= invslope1;
 		curx2 -= invslope2;}}
-void scanln(tri tr,double lg){
+void triRaster(tri tr,double lg){
 	if(tr.p2.y < tr.p1.y){ swapp(&tr.p2, &tr.p1); }if(tr.p3.y <tr.p1.y){ swapp(&tr.p3, &tr.p1); }if(tr.p3.y < tr.p2.y){ swapp(&tr.p3, &tr.p2); }
 	
 	if(tr.p3.y == tr.p2.y){drawtup(tr,lg);}

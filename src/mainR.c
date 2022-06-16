@@ -1,5 +1,5 @@
 #include "crlib.h"
-
+#include "crl_ncurses.h"
 void trirf(){
         initscr();
         clear();
@@ -7,13 +7,9 @@ void trirf(){
         tri tb[6500] = {0}; //declares  an array for all triangles in cube
          //makes triangulated cube and puts triangles to tbi
         mkfile(tb);
-        point sun = mkp(0,1,-1);
         point campo = mkp(0,0,10);
 	point vld;
 	point r = mkp(0,0,0);	
-	double yr = 0;
-	double xr = 0;
-	double zr = 0;
         char c;
 	struct winsize sz;
 	double timeS = 0;
@@ -35,7 +31,7 @@ void trirf(){
 			case'e' : system("clear");system("/bin/stty sane");exit(1);
 			default : break;}*/
 
-		vld = multm(vt,multms(crmx(xr),crmy(yr)));
+		vld = multm(vt,multms(crmx(r.x),multms(crmy(r.y),crmz(r.z))));
 		vt = addp(campo, vld);
 		mat4 camm = qinvm(camtr(campo,vt,up)); 
 		tri tristack[6500] = {0};
@@ -68,7 +64,7 @@ void trirf(){
 		qsort(tristack,6500,sizeof(tri),compare_function);
 		clear();
 		for(int tt = 0;tt<=6500;tt++){
-			scanln(tristack[tt],tristack[tt].gs);}
+			triRaster(tristack[tt],tristack[tt].gs);}
                 sleep(0.100);
                 //nanosleep((const struct timespec[]){{0, 5000000L}}, NULL); //wait some time between frames
                 timeS += 0.1;

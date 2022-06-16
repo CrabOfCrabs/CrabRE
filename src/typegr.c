@@ -154,10 +154,9 @@ tri psort(tri t){
 return tr;}
                                                                         
 //this shit moves your tringle / point to world space but doesnt have to you can just predefine the rotation
-point tranp(point p,point xyzr,point objor,point objoff,point objsize){             point transformed = multm(p,multms(multms(multms(multms(multms(multm
-s(
-        //shittone f matrix multiplications and then multiply p by final mat
-rix
+point tranp(point p,point xyzr,point objor,point objoff,point objsize){             
+    point transformed = multm(p,multms(multms(multms(multms(multms(multms(
+        //shittone f matrix multiplications and then multiply p by final matrix
         spos(objor),//origin
         pscale(objsize)),//rescale
         crmz(xyzr.z)),crmy(xyzr.y)),crmx(xyzr.x)),//zyx rotation

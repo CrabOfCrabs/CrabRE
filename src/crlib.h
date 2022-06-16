@@ -1,13 +1,11 @@
 #include <stdlib.h>
-#include <stdio.h>
 #include <unistd.h>
 #include <time.h>
 #include <sys/ioctl.h>
 #include <math.h>
 #include <stdbool.h>
-#include <curses.h>
 #include <string.h>
-
+#include <stdio.h>
 
 
 
@@ -21,7 +19,7 @@ typedef struct points{double x;double y;double z;double w;}point;
 //data type of a line
 typedef struct lines{point p1;point p2;}line;
 
-typedef struct triangle{point p1;point p2;point p3;double gs;}tri;
+typedef struct {point p1;point p2;point p3;double gs;}tri;
 //data for mesh contains all points and tris with pointers to poiters to tris and pointers to pointers to poitnts define
 //   with mesh.pa = calloc(size,sizeof(point*)) same for tris
 typedef struct meshes{int n;tri tap[];}mesh; //mesh made of points and triangles that have pointers to points)
@@ -78,8 +76,3 @@ double clamp(double n,double max,double min);
 point tranp(point p,point xyzr,point objor,point objoff,point objsize);
 tri trant(tri t,point rc,point pc,point co,point os);
 point getcampo(point p,camera rcam);
-void chshaded(point p);
-void drawline2d(point p1,point p2);
-void drawtup(tri t,double lg);
-void drawtdown(tri t,double lg);
-void scanln(tri tr,double lg);

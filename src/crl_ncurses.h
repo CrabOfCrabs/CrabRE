@@ -10,7 +10,7 @@
 */
 
 //scanline top and down triangle projection
-void chshaded(point p){
+void chshaded(Vec4 p){
 	 
 	double y=p.y, x=p.x, lg=p.z; //z is shade val
 	
@@ -33,7 +33,7 @@ void chshaded(point p){
 	else if(lg<=0.1 && lg>=0){
 	mvprintw(y/2,x,".");}}
 
-void drawline2d(point p1,point p2){ //p1 z is the shade of tri
+void drawline2d(Vec4 p1,Vec4 p2){ //p1 z is the shade of tri
 	double x=0, y=0, x1 = p1.x, x2 = p2.x, x2l=0;
 
 	if(x1<x2){x=x1;x2l = x2;}else{x=x2;x2l = x1;}y=p1.y;
@@ -41,7 +41,7 @@ void drawline2d(point p1,point p2){ //p1 z is the shade of tri
 		chshaded(mkp(x,y,p1.z));x=x+1;}}
 
 void drawtup(tri t,double lg){ //draws the line parallel to y up
-	point p1 = t.p1,p2 = t.p2,p3 = t.p3;p1.y = floor(p1.y);
+	Vec4 p1 = t.p1,p2 = t.p2,p3 = t.p3;p1.y = floor(p1.y);
 	double invslope1 = (p2.x - p1.x) / (p2.y - p1.y),
 	       invslope2 = (p3.x - p1.x) / (p3.y - p1.y),
 	       curx1 = p1.x, 
@@ -51,7 +51,7 @@ void drawtup(tri t,double lg){ //draws the line parallel to y up
 		curx1 += invslope1;
 		curx2 += invslope2;}}
 void drawtdown(tri t,double lg){//draws the line parallel to y down
-	point p1 = t.p1,p2 = t.p2,p3 = t.p3;p3.y = ceil(p3.y);
+	Vec4 p1 = t.p1,p2 = t.p2,p3 = t.p3;p3.y = ceil(p3.y);
 	double invslope1 = (p3.x - p1.x) / (p3.y - p1.y), 
 	       invslope2 = (p3.x - p2.x) / (p3.y - p2.y), 
 	       curx1 = p3.x, 
@@ -65,6 +65,6 @@ void triRaster(tri tr,double lg){
 	
 	if(tr.p3.y == tr.p2.y){drawtup(tr,lg);}
 	else if(tr.p1.y == tr.p2.y){drawtdown(tr,lg);}
-	else{point p4 = mkp(inpolx(mkline(tr.p1,tr.p3),tr.p2.y),tr.p2.y,0);
+	else{Vec4 p4 = mkp(inpolx(mkline(tr.p1,tr.p3),tr.p2.y),tr.p2.y,0);
 	tri tu = mktri(tr.p1,tr.p2,p4);tri td = mktri(tr.p2,p4,tr.p3);
 	drawtup(tu,lg);drawtdown(td,lg);}}

@@ -16,7 +16,7 @@ mat4 idm(){
 	pm.m[2][2] = 1;
 	pm.m[3][3] = 1;
 
-return pm;}mat4 spos(point pos){
+return pm;}mat4 spos(Vec4 pos){
 	mat4 pm;pm.m[0][1] = 0;pm.m[0][2] = 0;pm.m[0][3] = 0;pm.m[1][0] = 0;pm.m[1][2] = 0;pm.m[1][3] = 0;pm.m[2][0] = 0;pm.m[2][1] = 0;pm.m[2][3] = 0;
 	
 	pm.m[0][0] = 1;
@@ -27,7 +27,7 @@ return pm;}mat4 spos(point pos){
 	pm.m[3][1] = pos.y;
 	pm.m[3][2] = pos.z;
 
-return pm;}mat4 inspos(point pos){
+return pm;}mat4 inspos(Vec4 pos){
 	mat4 pm;pm.m[0][1] = 0;pm.m[0][2] = 0;pm.m[0][3] = 0;pm.m[1][0] = 0;pm.m[1][2] = 0;pm.m[1][3] = 0;pm.m[2][0] = 0;pm.m[2][1] = 0;pm.m[2][3] = 0;
 	
 	pm.m[0][0] = 1;
@@ -38,7 +38,7 @@ return pm;}mat4 inspos(point pos){
 	pm.m[3][1] = -pos.y;
 	pm.m[3][2] = -pos.z;
 
-return pm;}mat4 pscale(point scale){
+return pm;}mat4 pscale(Vec4 scale){
 	mat4 pm;pm.m[0][1] = 0;pm.m[0][2] = 0;pm.m[0][3] = 0;pm.m[1][0] = 0;pm.m[1][2] = 0;pm.m[1][3] = 0;pm.m[2][0] = 0;pm.m[2][1] = 0;pm.m[2][3] = 0;pm.m[3][0] = 0;pm.m[3][1] = 0;pm.m[3][2] = 0;
 	
 	pm.m[0][0] = scale.x;
@@ -76,12 +76,12 @@ return pm;}mat4 crmz(double theta){
 	pm.m[2][2] = 1;
 	pm.m[3][3] = 1;
 
-return pm;}mat4 camtr(point eye,point cen,point up){//tri p1 = eye , p2 = center ,p3 = upvector
+return pm;}mat4 camtr(Vec4 eye,Vec4 cen,Vec4 up){//tri p1 = eye , p2 = center ,p3 = upvector
 	mat4 pm;pm.m[0][3] = 0;pm.m[1][3] = 0;pm.m[2][3] = 0;	
 
-	point zc = normp(subp(cen,eye));
-	point yc = normp(subp(up,mulpn(zc,dot(up,zc))));
-	point xc = crossp(yc,zc);
+	Vec4 zc = normp(subp(cen,eye));
+	Vec4 yc = normp(subp(up,mulpn(zc,dot(up,zc))));
+	Vec4 xc = crossp(yc,zc);
 
 	pm.m[0][0] = xc.x;
 	pm.m[1][0] = yc.x;
@@ -97,7 +97,7 @@ return pm;}mat4 camtr(point eye,point cen,point up){//tri p1 = eye , p2 = center
 	pm.m[3][2] = eye.z;
 	pm.m[3][3] = 1;
 
-return pm;}mat4 ppm(point screen){
+return pm;}mat4 ppm(Vec4 screen){
 	mat4 pm;pm.m[0][1] = 0;pm.m[0][2] = 0;pm.m[0][3] = 0;pm.m[1][0] = 0;pm.m[1][2] = 0;pm.m[1][3] = 0;pm.m[2][0] = 0;pm.m[2][1] = 0;pm.m[3][0] = 0;pm.m[3][1] = 0;
 	double near = 0.1;
 	double far = 1000;
@@ -166,7 +166,7 @@ void mkpir(tri *obj){
 void mkfile(tri *obj){
 	FILE *fp = fopen("../test/obj/untitled.obj","r"); //file to read (needs to be obj)
 
-	point pbuff[5000];
+	Vec4 pbuff[5000];
 	char lbuff[64];
 	int pcnt = 1,tricnt = 0;
 	int i,j,n;

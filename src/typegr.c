@@ -1,53 +1,53 @@
 #include "crlib.h"
 
 /*	
-	POINT OPERATION FUNCTIONS
+	Vec4 OPERATION FUNCTIONS
 */	
 
 
 double clamp(double n,double max,double min){if(n<min){n=min;}else if(n>max){n=max;}return n;}
 
-//functions for point operations
-point mkp(double x,double y,double z){point p = {x,y,z,1};return p;} //makes a point
+//functions for Vec4 operations
+Vec4 mkp(double x,double y,double z){Vec4 p = {x,y,z,1};return p;} //makes a Vec4
 
-void swapp(point *p1,point *p2){point tmp = *p1;*p1 = *p2;*p2 = tmp;}
+void swapp(Vec4 *p1,Vec4 *p2){Vec4 tmp = *p1;*p1 = *p2;*p2 = tmp;}
 
-bool chckp(point p1,point p2){if(p1.x==p2.x || p1.y==p2.y || (p1.z==p2.z && p1.z!=0 && p2.z!=0)){return true;}return false;} //checks if points are the same or not
+bool chckp(Vec4 p1,Vec4 p2){if(p1.x==p2.x || p1.y==p2.y || (p1.z==p2.z && p1.z!=0 && p2.z!=0)){return true;}return false;} //checks if Vec4s are the same or not
 
-double magp(point p){double mg = sqrt((p.x*p.x) + (p.y*p.y) + (p.z*p.z));return mg;}
-double sign (point p1, point p2, point p3){return (p1.x - p3.x) * (p2.y - p3.y) - (p2.x - p3.x) * (p1.y - p3.y);}
-double dot(point p1,point p2){double dot = (p1.x*p2.x) + (p1.y*p2.y) + (p1.z*p2.z);return dot;}
+double magp(Vec4 p){double mg = sqrt((p.x*p.x) + (p.y*p.y) + (p.z*p.z));return mg;}
+double sign (Vec4 p1, Vec4 p2, Vec4 p3){return (p1.x - p3.x) * (p2.y - p3.y) - (p2.x - p3.x) * (p1.y - p3.y);}
+double dot(Vec4 p1,Vec4 p2){double dot = (p1.x*p2.x) + (p1.y*p2.y) + (p1.z*p2.z);return dot;}
 
-point subp(point p1,point p2){point p3=mkp(p1.x - p2.x, p1.y - p2.y, p1.z - p2.z);return p3;} //subctracts second point from the first
-point addp(point p1,point p2){point p3=mkp(p1.x + p2.x, p1.y + p2.y, p1.z + p2.z);return p3;}
-point divp(point p1,point p2){point p3=mkp(p1.x / p2.x, p1.y / p2.y, p1.z / p2.z);return p3;}
-point mulp(point p1,point p2){point p3=mkp(p1.x * p2.x, p1.y * p2.y, p1.z * p2.z);return p3;}
+Vec4 subp(Vec4 p1,Vec4 p2){Vec4 p3=mkp(p1.x - p2.x, p1.y - p2.y, p1.z - p2.z);return p3;} //subctracts second Vec4 from the first
+Vec4 addp(Vec4 p1,Vec4 p2){Vec4 p3=mkp(p1.x + p2.x, p1.y + p2.y, p1.z + p2.z);return p3;}
+Vec4 divp(Vec4 p1,Vec4 p2){Vec4 p3=mkp(p1.x / p2.x, p1.y / p2.y, p1.z / p2.z);return p3;}
+Vec4 mulp(Vec4 p1,Vec4 p2){Vec4 p3=mkp(p1.x * p2.x, p1.y * p2.y, p1.z * p2.z);return p3;}
 
-point subpn(point p,double d){point p1=mkp(p.x-d,p.y-d,p.z-d); return p1;}
-point addpn(point p,double d){point p1=mkp(p.x+d,p.y+d,p.z+d); return p1;}
-point divpn(point p,double d){point p1=mkp(p.x/d,p.y/d,p.z/d); return p1;}
-point mulpn(point p,double d){point p1=mkp(p.x*d,p.y*d,p.z*d); return p1;}
+Vec4 subpn(Vec4 p,double d){Vec4 p1=mkp(p.x-d,p.y-d,p.z-d); return p1;}
+Vec4 addpn(Vec4 p,double d){Vec4 p1=mkp(p.x+d,p.y+d,p.z+d); return p1;}
+Vec4 divpn(Vec4 p,double d){Vec4 p1=mkp(p.x/d,p.y/d,p.z/d); return p1;}
+Vec4 mulpn(Vec4 p,double d){Vec4 p1=mkp(p.x*d,p.y*d,p.z*d); return p1;}
 
-void chngx(point *p,double d){ p->x = d;}
-void chngy(point *p,double d){ p->y = d;}
-void chngz(point *p,double d){ p->z = d;}
-void chngw(point *p,double d){ p->w = d;}
+void chngx(Vec4 *p,double d){ p->x = d;}
+void chngy(Vec4 *p,double d){ p->y = d;}
+void chngz(Vec4 *p,double d){ p->z = d;}
+void chngw(Vec4 *p,double d){ p->w = d;}
 
-point negp(point p){point np = mkp(-p.x,-p.y,-p.z);return np;}
+Vec4 negp(Vec4 p){Vec4 np = mkp(-p.x,-p.y,-p.z);return np;}
 
-point normp(point p){
+Vec4 normp(Vec4 p){
 	double mg = magp(p);
-	point pn = mkp(p.x/mg,p.y/mg,p.z/mg);
+	Vec4 pn = mkp(p.x/mg,p.y/mg,p.z/mg);
 	return pn;}//normailize a vector
-point tricenp(tri t){
-	point p = mkp((t.p1.x+t.p2.x+t.p3.x)/3,(t.p1.y+t.p2.y+t.p3.y)/3,(t.p1.z+t.p2.z+t.p3.z)/3);
+Vec4 tricenp(tri t){
+	Vec4 p = mkp((t.p1.x+t.p2.x+t.p3.x)/3,(t.p1.y+t.p2.y+t.p3.y)/3,(t.p1.z+t.p2.z+t.p3.z)/3);
 	return p;}
-point crossp(point U ,point V){point c = mkp((U.y*V.z)-(U.z*V.y), (U.z*V.x)-(U.x*V.z), (U.x*V.y)-(U.y*V.x));return c;}
+Vec4 crossp(Vec4 U ,Vec4 V){Vec4 c = mkp((U.y*V.z)-(U.z*V.y), (U.z*V.x)-(U.x*V.z), (U.x*V.y)-(U.y*V.x));return c;}
 
-point normdcp(point p,point screen){point pw = mkp(p.x/p.w,p.y/p.w,p.z/p.w);point op = { screen.x * 0.5 *(pw.x+1),screen.y * 0.5 * (pw.y+1),0.5*pw.z + 0.5,0};return op;}
+Vec4 normdcp(Vec4 p,Vec4 screen){Vec4 pw = mkp(p.x/p.w,p.y/p.w,p.z/p.w);Vec4 op = { screen.x * 0.5 *(pw.x+1),screen.y * 0.5 * (pw.y+1),0.5*pw.z + 0.5,0};return op;}
 
-point multm(point p,mat4 m){
-	point o;
+Vec4 multm(Vec4 p,mat4 m){
+	Vec4 o;
 	o.x = p.x * m.m[0][0] + p.y * m.m[1][0] + p.z * m.m[2][0] + p.w * m.m[3][0];
 	o.y = p.x * m.m[0][1] + p.y * m.m[1][1] + p.z * m.m[2][1] + p.w * m.m[3][1];
 	o.z = p.x * m.m[0][2] + p.y * m.m[1][2] + p.z * m.m[2][2] + p.w * m.m[3][2];
@@ -79,7 +79,7 @@ return mat;}
 */	
 
 //functions for line opertaions p1 decided on y cordintate
-line mkline(point p1,point p2){if(p1.y>p2.y){line l =  {p1,p2};return l;}else{line l = {p2,p1};return l;}} // makes a point
+line mkline(Vec4 p1,Vec4 p2){if(p1.y>p2.y){line l =  {p1,p2};return l;}else{line l = {p2,p1};return l;}} // makes a Vec4
 
 double inpolx(line l,double y){double x = l.p1.x + (l.p2.x - l.p1.x)*(y - l.p1.y)/(l.p2.y - l.p1.y);return x;}
 
@@ -93,7 +93,7 @@ double inpolx(line l,double y){double x = l.p1.x + (l.p2.x - l.p1.x)*(y - l.p1.y
 */	
 
 //functions for triangle operations
-tri mktri(point p1,point p2,point p3){tri t = {p1,p2,p3,0};return t;}
+tri mktri(Vec4 p1,Vec4 p2,Vec4 p3){tri t = {p1,p2,p3,0};return t;}
 //makes tri with 9 numbers
 tri amktri(double tarr[9]){tri t = mktri(mkp(tarr[0],tarr[1],tarr[2]),mkp(tarr[3],tarr[4],tarr[5]),mkp(tarr[6],tarr[7],tarr[8]));return t;}
 
@@ -104,13 +104,13 @@ void lnfy(tri t,line *l){
 	l[0] = ll1;
 	l[1] = ll3;
 	l[2] = ll2;}
-void offsett(tri *t,point off){
+void offsett(tri *t,Vec4 off){
 	t->p1 = addp(t->p1,off);
 	t->p2 = addp(t->p2,off);
 	t->p3 = addp(t->p3,off);}
 
-bool PointInTriangle (tri t, point p){
-	point p1 = t.p1, p2 = t.p2, p3 = t.p3;
+bool Vec4InTriangle (tri t, Vec4 p){
+	Vec4 p1 = t.p1, p2 = t.p2, p3 = t.p3;
 	double d1, d2, d3;
 	bool has_neg, has_pos;
 	d1 = sign(p, p1, p2);
@@ -132,16 +132,16 @@ int compare_function(const void *a,const void *b){
 		return 1;}
 	else{return 0;}}
 
-double calcshade(tri t,point s){
-	point v = normp(s);
-	point tn = trinorm(t);
+double calcshade(tri t,Vec4 s){
+	Vec4 v = normp(s);
+	Vec4 tn = trinorm(t);
 	double out = dot(v,tn);
 	return out;}
 
-point trinorm(tri t){
-	point U = subp(t.p2,t.p1),V = subp(t.p3,t.p1);
-	point N = crossp(U,V);
-	point Nn = normp(N);
+Vec4 trinorm(tri t){
+	Vec4 U = subp(t.p2,t.p1),V = subp(t.p3,t.p1);
+	Vec4 N = crossp(U,V);
+	Vec4 Nn = normp(N);
 	return Nn;}
 
 tri psort(tri t){
@@ -153,9 +153,9 @@ tri psort(tri t){
 	if(tr.p3.y == tr.p2.y && tr.p3.x<tr.p2.x){ swapp(&tr.p3, &tr.p2); }
 return tr;}
                                                                         
-//this shit moves your tringle / point to world space but doesnt have to you can just predefine the rotation
-point tranp(point p,point xyzr,point objor,point objoff,point objsize){             
-    point transformed = multm(p,multms(multms(multms(multms(multms(multms(
+//this shit moves your tringle / Vec4 to world space but doesnt have to you can just predefine the rotation
+Vec4 tranp(Vec4 p,Vec4 xyzr,Vec4 objor,Vec4 objoff,Vec4 objsize){             
+    Vec4 transformed = multm(p,multms(multms(multms(multms(multms(multms(
         //shittone f matrix multiplications and then multiply p by final matrix
         spos(objor),//origin
         pscale(objsize)),//rescale
@@ -163,12 +163,12 @@ point tranp(point p,point xyzr,point objor,point objoff,point objsize){
         spos(objoff)),//final offset
         idm()));//identity matrix
 return transformed;}
-tri trant(tri t,point rc,point pc,point co,point os){
+tri trant(tri t,Vec4 rc,Vec4 pc,Vec4 co,Vec4 os){
         tri t1 = mktri(tranp(t.p1,rc,pc,co,os),tranp(t.p2,rc,pc,co,os),tranp
 (t.p3,rc,pc,co,os));
 return t1;}
 
-point getcampo(point p,camera rcam){point pct = multm(p,camtr(rcam.atV,rcam.toV,rcam.upV));return pct;}
+Vec4 getcampo(Vec4 p,camera rcam){Vec4 pct = multm(p,camtr(rcam.atV,rcam.toV,rcam.upV));return pct;}
 
 /*	
 	MESH OPERATION FUNCTIONS

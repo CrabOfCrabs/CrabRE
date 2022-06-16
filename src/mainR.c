@@ -7,16 +7,16 @@ void trirf(){
         tri tb[6500] = {0}; //declares  an array for all triangles in cube
          //makes triangulated cube and puts triangles to tbi
         mkfile(tb);
-        point campo = mkp(0,0,10);
-	point vld;
-	point r = mkp(0,0,0);	
+        Vec4 campo = mkp(0,0,10);
+	Vec4 vld;
+	Vec4 r = mkp(0,0,0);	
         char c;
 	struct winsize sz;
 	double timeS = 0;
         while(1){ //rotate in radianosi
 		system("/bin/stty raw");
-		point up = {0,1,0,0};
-		point vt = {0,0,1,0};
+		Vec4 up = {0,1,0,0};
+		Vec4 vt = {0,0,1,0};
 		//c=getchar();
 		/*switch(c){
 			case'w' : campo = subp(campo,divpn(vld,5));break;
@@ -37,7 +37,7 @@ void trirf(){
 		tri tristack[6500] = {0};
                 for(int tr=0;tr<=6500;tr++){ //for all triangols
                         ioctl( 0, TIOCGWINSZ, &sz );
-			point screen = mkp(sz.ws_col,sz.ws_row*2,0);
+			Vec4 screen = mkp(sz.ws_col,sz.ws_row*2,0);
 			
 			tri fint;
 			fint = trant(tb[tr],mkp(0,timeS,0),mkp(0,0,0),mkp(0,0,0),mkp(1,1,1));	

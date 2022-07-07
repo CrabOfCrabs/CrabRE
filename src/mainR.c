@@ -1,13 +1,13 @@
 #include "crlib.h"
 #include "crl_ncurses.h"
 void trirf(){
-        initscr();
+       // initscr();
         clear();
         curs_set(0);
         tri tb[6500] = {0}; //declares  an array for all triangles in cube
          //makes triangulated cube and puts triangles to tbi
         mkfile(tb);
-        Vec4 campo = mkp(0,0,10);
+        Vec4 campo = mkp(0,0,5);
 	Vec4 vld;
 	Vec4 r = mkp(0,0,0);	
         char c;
@@ -32,7 +32,9 @@ void trirf(){
 			default : break;}*/
 
 		vld = multm(vt,multms(crmx(r.x),multms(crmy(r.y),crmz(r.z))));
-		vt = addp(campo, vld);
+		
+
+        vt = addp(campo, vld);
 		mat4 camm = qinvm(camtr(campo,vt,up)); 
 		tri tristack[6500] = {0};
                 for(int tr=0;tr<=6500;tr++){ //for all triangols
